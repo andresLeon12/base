@@ -41,6 +41,7 @@ if(empty($_SESSION['usuario']))
           <li class=""><a href='#'>Salidas</a></li>
           <li class="" id="guiasLi"><a href='#guias' id="guias">Gu&iacute;as</a></li>
           <li class="" id="activosLi"><a href='#activos' id="activos">Activos</a></li>
+          <li class="" id="recursosLi"><a href='#recursos' id="recursos">Recursos</a></li>
         </ul>
       </div>
     </nav>
@@ -57,9 +58,10 @@ if(empty($_SESSION['usuario']))
             include 'fases.php';
           }elseif ($_SESSION['pag_act'] == 'guias') {
             include 'guias.php';
-          }
-          elseif ($_SESSION['pag_act'] == 'activos') {
+          }elseif ($_SESSION['pag_act'] == 'activos') {
             include 'activos.php';
+          }elseif ($_SESSION['pag_act'] == 'recursos') {
+            include 'recursos.php';
           }
         }
 

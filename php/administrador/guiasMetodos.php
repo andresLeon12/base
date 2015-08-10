@@ -62,6 +62,11 @@
 		$idActividad = $_POST['idActividad'];
 		$idModel = $_POST['idModel'];
 		$tipo = $_POST['tipo'];
+		if($idActividad == 'Selecciona una Actividad'){
+			$_SESSION["msj"] = "Por favor selecciona una actividad";
+			header("location: inicio_admin.php");
+			return;
+		}
 		$query  = "SELECT idModelo_P, nombreM FROM modelo_p WHERE idModelo_P=$idModel";
 		$consulta = json_decode($conex->getById($query));
 		$serv = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$consulta->nombreM."/";
@@ -69,7 +74,7 @@
 		    $archivo = $_FILES["guia"];
 		 	if($_FILES["guia"]["type"]!="application/pdf"){
 				$_SESSION["msj"] = "Lo sentimos solo archivos PDF";
-				return;
+				header("location: inicio_admin.php");
 			}
 		    if ($archivo["error"] !== UPLOAD_ERR_OK) {
 		        $_SESSION['msj'] = "Ha ocuurido un error.";
