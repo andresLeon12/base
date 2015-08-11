@@ -30,13 +30,13 @@ if(empty($_SESSION['usuario']))
 </div>   
 </div>
 <div class="container">
-  <nav class="light-red darken-3">
+  <nav class="blue-grey">
       <div class="nav-wrapper">
         <ul class="center hide-on-med-and-down">
           <li id="modelsLi" class=""><a id="modelos" href="#modelos">Modelos</a></li>
           <li id="fasesLi"  class=""><a id="fases" href="#fases">Fases</a></li>
           <li id="actividadesLi" class=""><a id="actividades" href="#actividades">Actividades</a></li>
-          <li class=""><a href='#'>Tareas</a></li>
+          <li id="tareasLi" class=""><a id="tareas" href='#tareas'>Tareas</a></li>
           <li class=""><a href='#'>Entradas</a></li>
           <li class=""><a href='#'>Salidas</a></li>
           <li class="" id="guiasLi"><a href='#guias' id="guias">Gu&iacute;as</a></li>
@@ -62,6 +62,8 @@ if(empty($_SESSION['usuario']))
             include 'activos.php';
           }elseif ($_SESSION['pag_act'] == 'recursos') {
             include 'recursos.php';
+          }elseif ($_SESSION['pag_act'] == 'tareas') {
+            include 'tareas.php';
           }
         }
 

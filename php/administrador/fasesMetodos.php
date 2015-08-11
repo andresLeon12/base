@@ -10,15 +10,20 @@
 		$descripcion = $_POST["descripcion"];
 		$orden = $_POST["orden"];
 		$idModelo = $_POST["modeloN"];
-
+		$conex = new Conexion;
+		$query = "SELECT * FROM fase WHERE nombre='$nombre' and Modelo_P_idModelo_P=$idModelo";
+		$consulta = json_decode($conex->get($query));
+		if(count($consulta) > 0){
+			$_SESSION['msj'] = "Esta fase ya ha sido agregada.";
+			header("location: inicio_admin.php");
+			return;
+		}
 
 		if($idModelo == 0){
 			$_SESSION["msj"] = "Es necesario seleccionar un Modelo de Proceso. Asegurate de que existan Modelos de Proceso.";
 			header("location: inicio_admin.php");
 			return;
 		}
-
-		$conex = new Conexion;
 		
 
 		$query  = "insert into fase(nombre,descripcion,orden,Modelo_P_idModelo_P) values ('$nombre','$descripcion','$orden',$idModelo)";
@@ -103,7 +108,7 @@
 		$query  = "DELETE FROM fase WHERE idFase = $idFase";
 
 		if ($conex->insert($query)) {
-			
+
 			$_SESSION["msj"] = "Se ha borrado ".$nomFase;
 		}else{
 			$_SESSION["msj"] = "Hubo un error al borrar ".$nomFase;

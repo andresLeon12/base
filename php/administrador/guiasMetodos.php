@@ -83,7 +83,7 @@
 		 
 		    // ensure a safe filename
 		    $name = preg_replace("/[^A-Z0-9._-]/i", "_", $archivo["name"]);
-		 
+		 	
 		    // preserve file from temporary directory
 		    $success = move_uploaded_file($archivo["tmp_name"],
 		        $serv . $name);

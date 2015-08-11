@@ -7,12 +7,15 @@ $idTable = $_GET['idTable'];
 $id = $_GET['id'];
 $conex = new Conexion;
 
-$comparacion = $idTable."=".$id;
+if ($id == 0) {
+	$query = "Select * From $table";
+	echo $conex->get($query);
+}else{
+	$comparacion = $idTable."=".$id;
+	$query = "Select * From $table where $comparacion";
+	echo $conex->getById($query);
+}
 
-
-$query = "Select * From $table where $comparacion";
-
-echo $conex->getById($query);
 //echo $conex->getById($table,$id);
 
 

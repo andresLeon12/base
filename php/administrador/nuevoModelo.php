@@ -29,7 +29,13 @@
 
 
 		$conex = new Conexion;
-		
+		$query = "SELECT * FROM modelo_p WHERE nombreM='$nombre'";
+		$consulta = json_decode($conex->get($query));
+		if(count($consulta) > 0){
+			$_SESSION['msj'] = "Este modelo de procesos ya existe";
+			header("location: inicio_admin.php");
+			return;
+		}
 
 		$query  = "insert into modelo_p(nombreM,descripcion,version) values ('$nombre','$descripcion','$version')";
 		$_SESSION['pag_act'] = 'modelos'; /// crear sesion de modelos

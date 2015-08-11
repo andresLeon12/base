@@ -97,11 +97,9 @@
 		    </div>
 		</div>
 		<div class="row">
-			
-		    
-		    <div class="col s4 ofsset-s1">
-		    <input type="hidden" id="tipo_recurso" name="tipo_recurso" value="fisico">
-		    <input type="submit" name="Agregar" class="btn wave-effect" id="entrar" value="Agregar" />
+		    <div class="input-field col s7 offset-s4">
+			    <input type="hidden" id="tipo_recurso" name="tipo_recurso" value="fisico">
+			    <input type="submit" name="Agregar" class="btn wave-effect" id="entrar" value="Agregar" />
 		    </div>
 		</div>
 	</form>

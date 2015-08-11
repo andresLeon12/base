@@ -32,7 +32,7 @@
 		<div class="row">
 			<div class="col s6">
 				<label>Modelo al que pertenece</label>
-				<select class="browser-default" id="models" name='idModel'><option>Selecciona un modelo</option>
+				<select tabindex="1" class="browser-default" id="models" name='idModel'><option>Selecciona un modelo</option>
 				<?php
                 	for($i=0;$i<count($misModelos);$i++){
 						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM}</option>";
@@ -40,7 +40,7 @@
 				</select>
 		    </div>
 		    <div class="input-field col s6">
-			   	<input type="text" name="tipo" id="tipoGuia"required />
+			   	<input tabindex="4" type="text" name="tipo" id="tipoGuia"required />
 				<label for="icon_prefix">Tipo</label>
 		    </div>
 		    
@@ -48,7 +48,7 @@
 		<div class="row">
 		    <div class="col s6">
 				<label>Fase a la que pertenece</label>
-				<select class="browser-default" name="idFase" id="idfases" required><option>Selecciona una fase</option></select>
+				<select tabindex="2" class="browser-default" name="idFase" id="idfases" required><option>Selecciona una fase</option></select>
 		    </div>
 		    <div class="file-field input-file col s6">
 		    	<div class="row">
@@ -56,7 +56,7 @@
 			    		<input class="file-path validate" type="text" style='width: 0'>
 						<div class="btn">
 							<span>Subir archivo</span>
-							<input type="file" name="guia" id="guia" requerid />
+							<input tabindex="6" type="file" name="guia" id="guia" requerid />
 						</div>
 			    	</div>
 			    	<div class="col s6">
@@ -70,10 +70,10 @@
 		<div class="row">
 		    <div class="col s6">
 				<label>Actividad a la que pertenece</label>
-				<select class="browser-default" name="idActividad" id="idActividades" required><option>Selecciona una Actividad</option></select>
+				<select tabindex="3" class="browser-default" name="idActividad" id="idActividades" required><option>Selecciona una Actividad</option></select>
 		    </div>
 		    <div class="col s3 offset-s2">
-			    <input type="submit" name="Agregar" class="btn wave-effect" id="entrar" value="Agregar" />
+			    <input tabindex="7" type="submit" name="Agregar" class="btn wave-effect" id="entrar" value="Agregar" />
 		    </div>
 		</div>
 	</form>
@@ -163,7 +163,7 @@
 		<div class="row">
 			<div class="col s6">
 				<label>Modelo al que pertenece</label>
-				<select class="browser-default" id="modelsEdit" name='idModel'><option>Selecciona un modelo</option>
+				<select tabindex="1" class="browser-default" id="modelsEdit" name='idModel'><option>Selecciona un modelo</option>
 				<?php
                 	for($i=0;$i<count($misModelos);$i++){
 						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM}</option>";
@@ -171,7 +171,7 @@
 				</select>
 		    </div>
 		    <div class="input-field col s6">
-			   	<input type="text" name="tipo" id="tipoEdit"required />
+			   	<input tabindex="4" type="text" name="tipo" id="tipoEdit"required />
 				<label for="icon_prefix">Tipo</label>
 		    </div>
 		    
@@ -179,7 +179,7 @@
 		<div class="row">
 		    <div class="col s6">
 				<label>Fase a la que pertenece</label>
-				<select class="browser-default" name="idFase" id="idfasesEdit" required><option>Selecciona una fase</option></select>
+				<select tabindex="2" class="browser-default" name="idFase" id="idfasesEdit" required><option>Selecciona una fase</option></select>
 		    </div>
 		    
 		    <div class="col s6">
@@ -194,14 +194,14 @@
 		<div class="row file-field input-file ">
 			<div class="col s6">
 				<label>Actividad a la que pertenece</label>
-				<select class="browser-default" name="idActividad" id="idActividadesEdit" required><option>Selecciona una Actividad</option></select>
+				<select tabindex="3" class="browser-default" name="idActividad" id="idActividadesEdit" required><option>Selecciona una Actividad</option></select>
 		    </div>
 			<div class="col s6">
 				<div class="col s3">
 			    		<input class="file-path validate" type="text" style='width: 0'>
 						<div class="btn">
 							<span>Subir archivo</span>
-							<input type="file" name="guia" id="guia" />
+							<input tabindex="5" type="file" name="guia" id="guia" />
 						</div>
 			    	</div>
 			    	<div class="col s4">
@@ -218,7 +218,7 @@
 		<a class="modal-action modal-close wavs-effects wavs-green btn-flat">Cancelar</a>
 		<input type="hidden" name="id" id="idGuiaEdit">
 		<input type="hidden" name="linkOldFile" id="linkOldFile">
-		<input type="submit" name="Actualizar" class="wavs-effects wavs-green btn-flat" value="Actualizar información" />
+		<input type="submit" tabindex="6" name="Actualizar" class="wavs-effects wavs-green btn-flat" value="Actualizar información" />
 	</div> 
 	</form>
 </div>

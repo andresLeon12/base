@@ -1,3 +1,11 @@
+$(document).on("click","#tareas",function(){
+	$('#content').load('tareas.php');//cargando la vista de fase.php en el div con el id de content
+	$("#tareasLi").addClass("active");
+	$("#fasesLi").removeClass("active");
+	$("#actividadesLi").removeClass("active");
+	$("#modelsLi").removeClass("active");
+	pag_act = 'tareas';
+});
 $(document).on("change","#selectRecurso", function(){
 	if($(this).prop("checked")){
 		$("#tipo").empty();
@@ -121,6 +129,104 @@ $(document).on("click","a", function(){
 	href = $(this).attr("href")
 	seccion = $(this).attr("class")
 	if(href==="#!"){
+		if(seccion.indexOf("miTarea")>=0){
+				
+			idTarea = $(this).attr('id')
+			var auxIdAct = 0;
+
+			$.ajax({
+				method: 'GET',
+				data: {table : 'tarea' , id : idTarea , idTable : 'idTarea'},
+				url: "getByID.php",
+			}).done(function(resultado){
+				res = JSON.parse(resultado);
+				$("#idTarea").val(res.idTarea)//el id para actualizar los datos
+				$("#nomTarea").html("Tarea: <b>"+res.nombre+"</b>");
+				$("#nombre2").val(res.nombre);
+			 	$("#descripcion2").val(res.descripcion);
+
+			 	auxIdModelo = res.Actividad_idActividad;
+			 	$.ajax({
+					method: 'GET',
+					data: {table : 'actividad' , id : auxIdModelo , idTable : 'idActividad'},
+					url: "getByID.php",
+				}).done(function(resultado){
+					res = JSON.parse(resultado)
+					idFase = parseInt(res.Fase_idFase)
+					//Obtenemos el modelo al que pertenece
+					$.ajax({
+						method: 'GET',
+						data: {table : 'fase' , id : idFase , idTable : 'idFase'},
+						url: "getByID.php",
+					}).done(function(resultado){
+						res = JSON.parse(resultado)
+						idModel = res.Modelo_P_idModelo_P
+						$("#modelsEdit option").each(function(){
+							element = this
+							if(element.value == idModel){
+								$(this).attr("selected", "true")
+							}
+						});
+						$.ajax({
+							method: 'GET',
+							data: {getByModel : idModel },
+							url: "fasesMetodos.php",
+						}).done(function(resultado){
+							res = JSON.parse(resultado)
+							$("#idFasesEdit").empty()
+							$("#idFasesEdit").append("Selecciona una fase");
+							for(i=0;i<res.length;i++){
+								if(res[i].idFase == idFase)
+						 			$("#idfasesEdit").append("<option selected value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
+						 		else
+						 			$("#idfasesEdit").append("<option value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
+						 		
+						 	}
+						 	$.ajax({
+								method: 'GET',
+								data: {getByFase : idFase },
+								url: "actividadesMetodos.php",
+							}).done(function(resultado){
+								res = JSON.parse(resultado)
+								$("#idActividadesEdit").append("Selecciona una actividad");
+								for(i=0;i<res.length;i++){
+									if(res[i].idActividad == auxIdModelo)
+							 			$("#idActividadesEdit").append("<option selected value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
+							 		else
+							 			$("#idActividadesEdit").append("<option value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
+								}
+								$.ajax({
+									method: 'GET',
+									data: {table : 'guia' , id : idGuia , idTable : 'idGuia'},
+									url: "getByID.php",
+								}).done(function(resultado){
+									res = JSON.parse(resultado)
+									$("#tipoEdit").val(res.tipo)
+									$("#tipoEdit").focus()
+									nombre = res.nombre.split("/")
+									$("#linkFileEditGuia").text(nombre[1])
+									$("#linkFileEditGuia").attr("href", "../../archivos/"+res.nombre)
+									$("#linkOldFile").val(res.nombre)
+								})
+							})
+						})
+					})
+				})
+			 	/*
+			 	$("#actividadEdit option").each(function(){
+			 		element = this;
+			 		if(element.value == auxIdModelo){
+			 			$(this).attr("selected","true");
+			 		}
+			 	});
+			 	*/
+			 	//$('#modelFase').openModal()
+			 	$("#nombre2").focus();
+		 		$("#descripcion2").focus();
+		 		$("#nombre2").focus();
+			})
+			//$('#modalTarea').openModal();
+		}
 		if (seccion.indexOf("miGuia")>=0) {
 			idGuia = $(this).attr('id')
 			$("#idGuiaEdit").val(idGuia);
@@ -382,4 +488,24 @@ $(document).on("click","a", function(){
 		$("#editarGuia").openModal()
 	}
 
+});
+$(document).on('submit','.eliminarTarea',function(){
+	id = $(this).attr("id").split("-");
+	//alert("id "+id[1])
+	$('#eliminarTarea-'+id[1]).find(':input').each(function(){
+		element = this;
+		//alert(element.id)
+		switch(element.id){
+			case 'idT-'+id[1]:
+				$('#idTareaForm').val(element.value);
+				//alert("value "+element.value)
+			break;
+			case 'nomT-'+id[1]:
+				$("#nombreTareaForm").val(element.value);
+				$("#nameTarea").html("&iquest;Realmente desea eliminar <b>"+element.value+"</b>?");
+			break;
+		}
+	});
+	$("#confirmDeleteTarea").openModal();
+	return false;//para no enviar el formulario
 });

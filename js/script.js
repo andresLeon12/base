@@ -158,9 +158,6 @@ $(document).on("click","a", function(){
 
 		}
 
-
-	
-
 	if(href==="#!"){
 		if (seccion.indexOf("miModelo")>=0) {
 			idModel = $(this).attr("id")
@@ -185,8 +182,7 @@ $(document).on("click","a", function(){
 			 	//$("#model").openModal()
 			 })
 			 $("#model").openModal()
-		}else{
-			if(seccion.indexOf("miFase")>=0){
+		}else if(seccion.indexOf("miFase")>=0){
 				
 				idFase = $(this).attr('id')
 
@@ -274,7 +270,6 @@ $(document).on("click","a", function(){
 					})
 				})
 			}
-		}
 	}
 
 });
