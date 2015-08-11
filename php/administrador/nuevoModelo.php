@@ -35,6 +35,10 @@
 		$_SESSION['pag_act'] = 'modelos'; /// crear sesion de modelos
 		if ($conex->insert($query)) {
 			$serv = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/';
+			if(!file_exists($serv))
+			{
+			mkdir ($serv);
+			} 
 			$ruta = $serv . $nombre;
 			if(!file_exists($ruta))
 			{
@@ -60,10 +64,43 @@
 		$conex = new Conexion;
 		$query  = "SELECT idModelo_P, nombreM FROM modelo_p WHERE idModelo_P=$idd";
 		$consulta = json_decode($conex->getById($query));
+		$query  = "SELECT idFase FROM fase WHERE Modelo_P_idModelo_P=$idd";
+		$consulta = json_decode($conex->getById($query));
+		if(count($consulta) > 0){
+			$query  = "SELECT idActividad FROM actividad WHERE Fase_idFase=".$consulta->idFase;
+			$consulta = json_decode($conex->getById($query));
+			if(count($consulta) > 0){
+				$idActividad = $consulta->idActividad;
+				$query  = "SELECT Guia_idGuia FROM a_guia WHERE Actividad_idActividad=".$idActividad;
+				$consulta = json_decode($conex->getById($query));
+				if(count($consulta) > 0){
+					$query  = "DELETE FROM guia WHERE idGuia=".$consulta->Guia_idGuia;
+					$conex->insert($query);
+				}
+				$query  = "SELECT Activo_idActivo FROM a_activo WHERE Actividad_idActividad=".$idActividad;
+				$consulta = json_decode($conex->getById($query));
+				if(count($consulta) > 0){
+					$query  = "DELETE FROM activo WHERE idActivo=".$consulta->Activo_idActivo;
+					$conex->insert($query);
+				}
+				$query  = "SELECT RecursoF_idRecursoFisico FROM actividad_rf WHERE Actividad_idActividad=".$idActividad;
+				$consulta = json_decode($conex->getById($query));
+				if(count($consulta) > 0){
+					$query  = "DELETE FROM recursoF WHERE idRecursoFisico=".$consulta->RecursoF_idRecursoFisico;
+					$conex->insert($query);
+				}
+				$query  = "SELECT RecursoH_idRecursoHumano FROM actividad_rh WHERE Actividad_idActividad=".$idActividad;
+				$consulta = json_decode($conex->getById($query));
+				if(count($consulta) > 0){
+					$query  = "DELETE FROM recursoH WHERE idRecursoHumano=".$consulta->RecursoH_idRecursoHumano;
+					$conex->insert($query);
+				}
+			}
+		}
 		$query  = "DELETE FROM modelo_p WHERE idModelo_P='$idd'";
 		$_SESSION['pag_act'] = 'modelos'; /// crear sesion de modelos
 		if ($conex->insert($query)) {
-			//echo $consulta;
+
 			$serv = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$consulta->nombreM;
 			if(file_exists($serv))
 			{
@@ -75,9 +112,6 @@
 		}
 		$_SESSION["modelos"] = $conex->get("SELECT * FROM modelo_p");
 		header("location: inicio_admin.php");
-
-
-	
 	}
     function delTree($dir) {
 	    $files = array_diff(scandir($dir), array('.','..')); 

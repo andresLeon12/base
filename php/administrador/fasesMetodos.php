@@ -71,10 +71,39 @@
 		$nomFase = $_POST['nombreFaseForm'];
 
 		$conex = new Conexion;
-
+		$query  = "SELECT idActividad FROM actividad WHERE Fase_idFase=".$idFase;
+			$consulta = json_decode($conex->getById($query));
+			if(count($consulta) > 0){
+				$idActividad = $consulta->idActividad;
+				$query  = "SELECT Guia_idGuia FROM a_guia WHERE Actividad_idActividad=".$idActividad;
+				$consulta = json_decode($conex->getById($query));
+				if(count($consulta) > 0){
+					$query  = "DELETE FROM guia WHERE idGuia=".$consulta->Guia_idGuia;
+					$conex->insert($query);
+				}
+				$query  = "SELECT Activo_idActivo FROM a_activo WHERE Actividad_idActividad=".$idActividad;
+				$consulta = json_decode($conex->getById($query));
+				if(count($consulta) > 0){
+					$query  = "DELETE FROM activo WHERE idActivo=".$consulta->Activo_idActivo;
+					$conex->insert($query);
+				}
+				$query  = "SELECT RecursoF_idRecursoFisico FROM actividad_rf WHERE Actividad_idActividad=".$idActividad;
+				$consulta = json_decode($conex->getById($query));
+				if(count($consulta) > 0){
+					$query  = "DELETE FROM recursoF WHERE idRecursoFisico=".$consulta->RecursoF_idRecursoFisico;
+					$conex->insert($query);
+				}
+				$query  = "SELECT RecursoH_idRecursoHumano FROM actividad_rh WHERE Actividad_idActividad=".$idActividad;
+				$consulta = json_decode($conex->getById($query));
+				if(count($consulta) > 0){
+					$query  = "DELETE FROM recursoH WHERE idRecursoHumano=".$consulta->RecursoH_idRecursoHumano;
+					$conex->insert($query);
+				}
+			}
 		$query  = "DELETE FROM fase WHERE idFase = $idFase";
 
 		if ($conex->insert($query)) {
+			
 			$_SESSION["msj"] = "Se ha borrado ".$nomFase;
 		}else{
 			$_SESSION["msj"] = "Hubo un error al borrar ".$nomFase;
