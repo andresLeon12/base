@@ -100,16 +100,13 @@ $(document).on("submit", ".eliminarRecurso", function(){
 				$("#nombreRecursoForm").val(element.value)
 				$("#nomRecurso").html("¿Realmente deseas eliminar "+element.value+"?")
 			break;
+			case 'tipoRecurso-'+id[1]:
+				$("#tipo_recursoForm").val(element.value)
+			break;
 		}
 	});
 	$("#confirmDeleteRecurso").openModal();
 	return false;
-});
-$(document).on("submit", "#submitRecursos", function(){
-	/*if(restaFechas($("#fecha_ini").val(),$("#fecha_fin").val()) <= 0 ){
-		$("#errores").html("Verifica las fechas porfavor")
-		return false;
-	}*/
 });
 restaFechas = function(f1,f2){
 	var aFecha1 = f1.split('/'); 
@@ -274,6 +271,107 @@ $(document).on("click","a", function(){
 									$("#linkFileEditActivo").text(nombre[1])
 									$("#linkFileEditActivo").attr("href", "../../archivos/"+res.nombre)
 									$("#linkOldFile").val(res.nombre)
+								})
+							})
+						})
+					})
+				})
+			})
+		}else if (seccion.indexOf("miRecurso")>=0) {
+			idRecurso = $(this).attr('id')
+			$("#idRecursoEdit").val(idRecurso);
+			tableRelation = ((seccion.indexOf("miRecursoH")>=0) ? 'actividad_rh' : 'actividad_rf' );
+			tableRecurso = ((seccion.indexOf("miRecursoH")>=0) ? 'recursoh' : 'recursof' );
+			idRecursoColum = ((seccion.indexOf("miRecursoH")>=0) ? 'RecursoH_idRecursoHumano' : 'RecursoF_idRecursoFisico' );
+			idRecursoColumR = ((seccion.indexOf("miRecursoH")>=0) ? 'idRecursoHumano' : 'idRecursoFisico' );
+			var idActividad = idFase = idModel = 0;
+			$.ajax({
+				method: 'GET',
+				data: {table : tableRelation , id : idRecurso , idTable : idRecursoColum},
+				url: "getById.php",
+			}).done(function(resultado){
+				res = JSON.parse(resultado)
+				idActividad = res.Actividad_idActividad
+				$.ajax({
+					method: 'GET',
+					data: {table : 'actividad' , id : idActividad , idTable : 'idActividad'},
+					url: "getByID.php",
+				}).done(function(resultado){
+					res = JSON.parse(resultado)
+					idFase = parseInt(res.Fase_idFase)
+					//Obtenemos el modelo al que pertenece
+					$.ajax({
+						method: 'GET',
+						data: {table : 'fase' , id : idFase , idTable : 'idFase'},
+						url: "getByID.php",
+					}).done(function(resultado){
+						res = JSON.parse(resultado)
+						idModel = res.Modelo_P_idModelo_P
+						$("#modelsEdit option").each(function(){
+							element = this
+							if(element.value == idModel){
+								$(this).attr("selected", "true")
+							}
+						});
+						$.ajax({
+							method: 'GET',
+							data: {getByModel : idModel },
+							url: "fasesMetodos.php",
+						}).done(function(resultado){
+							res = JSON.parse(resultado)
+							$("#idfasesEdit").empty()
+							$("#idfasesEdit").append("Selecciona una fase");
+							for(i=0;i<res.length;i++){
+								if(res[i].idFase == idFase)
+						 			$("#idfasesEdit").append("<option selected value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
+						 		else
+						 			$("#idfasesEdit").append("<option value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
+						 		
+						 	}
+						 	$.ajax({
+								method: 'GET',
+								data: {getByFase : idFase },
+								url: "actividadesMetodos.php",
+							}).done(function(resultado){
+								res = JSON.parse(resultado)
+								$("#idActividadesEdit").append("Selecciona una actividad");
+								for(i=0;i<res.length;i++){
+									if(res[i].idActividad == idActividad)
+							 			$("#idActividadesEdit").append("<option selected value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
+							 		else
+							 			$("#idActividadesEdit").append("<option value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
+								}
+								$.ajax({
+									method: 'GET',
+									data: {table : tableRecurso , id : idRecurso , idTable : idRecursoColumR},
+									url: "getByID.php",
+								}).done(function(resultado){
+									res = JSON.parse(resultado)
+									$("#nombreEdit").val(res.nombre)
+									$("#nombreEdit").focus()
+									$("#carga_trabajoEdit").val(res.carga_trabajo)
+									$("#carga_trabajoEdit").focus()
+									if(tableRecurso==="recursoh"){
+										$("#tipoEdit").empty();
+										$("#tipoEdit").append("<option>Selecciona una opción</option><option>Externo</option><option>Miembro del equipo</option>");
+										$("#descripcionDivEdit").fadeOut("slow")
+										$("#descripcionEdit").val("***")
+										$("#tipo_recursoEdit").val("humano")
+									}else{
+										$("#tipoEdit").empty();
+										$("#tipoEdit").append("<option>Selecciona una opción</option><option>Material</option><option>Instalación</option><option>Equipo</option>")
+										$("#descripcionDivEdit").fadeIn("slow")
+										$("#tipo_recursoEdit").val("fisico")
+										$("#descripcionEdit").val(res.descripcion)
+										$("#descripcionEdit").focus()
+									}
+									$("#tipoEdit option").each(function(){
+										element = this
+										if(element.value == res.tipo){
+											$(this).attr("selected", "true")
+										}
+									});
+									
 								})
 							})
 						})

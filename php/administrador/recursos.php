@@ -163,7 +163,7 @@
 					<input type='hidden'  id='tipoRecurso-".$i."' value='fisico'/>
 					<button type='submit' name='eliminar' class='btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-delete'></i></button>
 				</form></td>";
-				echo "<td><a href='#!' id='".$recursos[$i]->idRecursoFisico."' class='miRecurso btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-settings'>Editar</i></a></td>";
+				echo "<td><a href='#!' id='".$recursos[$i]->idRecursoFisico."' class='miRecursoF btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-settings'>Editar</i></a></td>";
 			echo "</tr>";
 		$j = ($i+1);
 	}
@@ -192,7 +192,7 @@
 					<input type='hidden'  id='tipoRecurso-".($i+$j)."' value='humano'/>
 					<button type='submit' name='eliminar' class='btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-delete'></i></button>
 				</form></td>";
-				echo "<td><a href='#!' id='".$recursosh[$i]->idRecursoHumano."' class='mirecurso btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-settings'>Editar</i></a></td>";
+				echo "<td><a href='#!' id='".$recursosh[$i]->idRecursoHumano."' class='miRecursoH btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-settings'>Editar</i></a></td>";
 			echo "</tr>";
 		//echo "</form>";
 	}
@@ -212,7 +212,7 @@
 		<p>Toma en cuenta que si eliminas este recurso puedes afectar a otras actividades.<br/>
 		Se eliminar&aacute;n aquellas tareas, entradas, salidas y gu&iacute;as que contenga esta actividad.</p>
 		<input type='hidden' name='idRecurso' id='idRecursoForm'/>
-		<input type='hidden' name='tipo_recurso' id='tipo_recurso'/>
+		<input type='hidden' name='tipo_recurso' id='tipo_recursoForm'/>
 		<input type='hidden'  id='nombreRecursoForm' name="nombreRecurso" />
 	</div>
 	<div class="modal-footer">
@@ -224,16 +224,17 @@
 
 <div id="editarGuia" class="modal">
 	<form  action="recursosMetodos.php" method="POST" id="submitRecursos">
+	<div class="modal-content">
 		<div class="row" id="nombreDiv">
 			<div class="input-field col s12">
-				<input type="text" name="nombre" id="nombre" required length='45' />
+				<input type="text" name="nombre" id="nombreEdit" required length='45' />
 				<label for="icon_prefix">Nombre</label>
 		    </div>	    
 		</div>
 		<div class="row">
 			<div class="col s6">
 				<label>Modelo al que pertenece</label>
-				<select class="browser-default" id="models" name='idModel' required><option>Selecciona un modelo</option>
+				<select class="browser-default" id="modelsEdit" name='idModelEdit' required><option>Selecciona un modelo</option>
 				<?php
                 	for($i=0;$i<count($misModelos);$i++){
 						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM}</option>";
@@ -241,18 +242,18 @@
 				</select>
 		    </div>	
 		    <div class="input-field col s6">
-			   	<input type="text" name="carga_trabajo" id="carga_trabajo" required length='45' />
+			   	<input type="text" name="carga_trabajo" id="carga_trabajoEdit" required length='45' />
 				<label for="icon_prefix">Carga de trabajo</label>
 		    </div>	    
 		</div>
 		<div class="row">
 		    <div class="col s6">
 				<label>Fase a la que pertenece</label>
-				<select class="browser-default" name="idFase" id="idfases" required ><option>Selecciona una fase</option></select>
+				<select class="browser-default" name="idFase" id="idfasesEdit" required ><option>Selecciona una fase</option></select>
 		    </div>
 		    <div class="col s6">
 		    	<label>Tipo de recurso</label>
-				<select class="browser-default" name="tipo" id="tipo" required>
+				<select class="browser-default" name="tipo" id="tipoEdit" required>
 					<option>Selecciona una opci&oacute;n</option>
 					<option>Material</option>
 					<option>Instalaci&oacute;n</option>
@@ -271,20 +272,21 @@
 		<div class="row">
 		    <div class="col s6">
 				<label>Actividad a la que pertenece</label>
-				<select class="browser-default" name="idActividad" id="idActividades" required><option>Selecciona una Actividad</option></select>
+				<select class="browser-default" name="idActividad" id="idActividadesEdit" required><option>Selecciona una Actividad</option></select>
 		    </div>
-		    <div class="input-field col s6" id="descripcionDiv" >
-		    	<textarea name="descripcion" id="descripcion" class="materialize-textarea" required length='45'></textarea>
+		    <div class="input-field col s6" id="descripcionDivEdit" >
+		    	<textarea name="descripcion" id="descripcionEdit" class="materialize-textarea" required length='45'></textarea>
 	       		<label for="textarea1">Descripci&oacute;n</label>
 		    </div>
 		</div>
 		<div class="row">
-			
+		</div>
+		<div class="modal-footer">    
+		    <a class="modal-action modal-close wavs-effects wavs-green btn-flat">Cancelar</a>
+		    <input type='hidden' name='idRecurso' id='idRecursoEdit'/>
+		    <input type="hidden" id="tipo_recursoEdit" name="tipo_recurso">
+		    <input type="submit" name="Actualizar" class="wavs-effects wavs-green btn-flat" id="entrar" value="Actualizar información" />
 		    
-		    <div class="col s4 ofsset-s1">
-		    <input type="hidden" id="tipo_recurso" name="tipo_recurso" value="fisico">
-		    <input type="submit" name="Agregar" class="btn wave-effect" id="entrar" value="Agregar" />
-		    </div>
 		</div>
 	</form>
 </div>

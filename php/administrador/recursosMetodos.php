@@ -4,56 +4,43 @@
 	include_once("../Conexion.class.php");
 	
 	if (isset($_POST['Actualizar'])) {
-		
 		$conex = new Conexion;
-		$id = $_POST['id'];
+		$id = $_POST['idRecurso'];
 		$idActividad = $_POST['idActividad'];
-		$idModel = $_POST['idModel'];
+		$idTipo = $_POST['tipo'];
+		$carga_trabajo = $_POST['carga_trabajo'];
 		$descripcion = $_POST['descripcion'];
-		$linkOld = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$_POST['linkOldFile'];
-		$nombre = explode("/",$_POST['linkOldFile']);
-		$serv = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$nombre[0]."/";
-		$nombreFinal = "".$_POST['linkOldFile'];
-		if (!empty($_FILES["activo"]) && $_FILES['activo']['size'] > 0) {
-			if($_FILES["activo"]["type"]!="application/pdf"){
-				$_SESSION["msj"] = "Lo sentimos solo archivos PDF";
-				//header("location: inicio_admin.php");
-			}
-		    $archivo = $_FILES["activo"];
-		    if ($archivo["error"] !== UPLOAD_ERR_OK) {
-		        $_SESSION['msj'] = "Ha ocurrido un error.";
-		        //header("location: inicio_admin.php");
-		    }
-		 
-		    // ensure a safe filename
-		    $name = preg_replace("/[^A-Z0-9._-]/i", "_", $archivo["name"]);
-		 	$nombreFinal = $nombre[0]."/".$name;
-		 	
-		    // preserve file from temporary directory
-		    $success = move_uploaded_file($archivo["tmp_name"],
-		        $serv . $name);
-		    unlink($linkOld);
-		    if (!$success) { 
-		        echo "<p>No se pudo guardar.</p>";
-		        exit;
-		    }
-		 
-		    // set proper permissions on the new file
-		    chmod($serv . $name, 0644);
-		    
-			//echo $_SESSION['msj'];
+		$nombre = $_POST['nombre'];
+		if($idActividad == 'Selecciona una Actividad'){
+			$_SESSION["msj"] = "Por favor selecciona una actividad";
+			header("location: inicio_admin.php");
+			return;
 		}
-		$query = "update activo set nombre='$nombreFinal', descripcion='$descripcion' where idactivo=$id";
+		if (strpos($idTipo,'Selecciona') !== false) {
+		    $_SESSION["msj"] = "Por favor selecciona un tipo de recurso";
+			header("location: inicio_admin.php");
+			return;
+		}
+		if($_POST['tipo_recurso'] == "fisico")
+			$query = "UPDATE recursof SET nombre='$nombre',tipo='$idTipo',descripcion='$descripcion',carga_trabajo='$carga_trabajo' WHERE idRecursoFisico=$id";
+		else
+			$query = "UPDATE recursoh SET nombre='$nombre',tipo='$idTipo',carga_trabajo='$carga_trabajo' WHERE idRecursoHumano=$id";
 		if ($conex->insert($query)) {
-			$query = "UPDATE A_Activo SET Actividad_idActividad=$idActividad WHERE Activo_idActivo=$id";
-			if ($conex->insert($query)) {
-				$_SESSION["msj"] = "activo Actualizada Satisfactoriamente";
+			if($_POST['tipo_recurso'] == "fisico"){
+				$query = "UPDATE actividad_rf SET Actividad_idActividad = $idActividad";
 			}else{
-				$_SESSION["msj"] = "activo no Actualizada ";
+				$query = "UPDATE actividad_rh SET Actividad_idActividad = $idActividad";
 			}
+			if ($conex->insert($query)) {
+				$_SESSION["msj"] = "Recurso Actualizado ";
+			}else{
+				$_SESSION["msj"] = "Recurso no Actualizado ";
+			}
+			
 		}else{
-			$_SESSION["msj"] = "activo no Actualizada ";
+			$_SESSION["msj"] = "Recurso no Actualizado ";
 		}
+		//return;
 		header("location: inicio_admin.php");
 
 	}elseif(isset($_POST['Agregar'])){
@@ -109,16 +96,17 @@
 
 		echo $conex->get($query);
 	}elseif(isset($_POST['eliminar'])){
-		$id = $_POST["idActivo"];
-		$nombre = $_POST['nombreActivo'];
+		$id = $_POST["idRecurso"];
+		$nombre = $_POST['nombreRecurso'];
 		$conex = new Conexion;
-		$query  = "DELETE FROM activo WHERE idactivo = $id";
+		if($_POST['tipo_recurso'] == "fisico")
+			$query  = "DELETE FROM recursof WHERE idRecursoFisico = $id";
+		else
+			$query  = "DELETE FROM recursoh WHERE idRecursoHumano = $id";
 		if ($conex->insert($query)) {
-			unlink($_SERVER['DOCUMENT_ROOT'].'/base/archivos/'.$nombre);
-			$nombre = explode("/", $nombre);
-			$_SESSION["msj"] = "Se ha borrado ".$nombre[1];
+			$_SESSION["msj"] = "Se ha borrado ".$nombre;
 		}else{
-			$_SESSION["msj"] = "Hubo un error al borrar ".$nombre[1];
+			$_SESSION["msj"] = "Hubo un error al borrar ".$nombre;
 		}
 		header("location: inicio_admin.php");
 	}
