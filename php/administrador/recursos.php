@@ -59,8 +59,6 @@
 				</select>
 		    </div>	
 		    <div class="input-field col s6">
-			   	<input type="text" name="carga_trabajo" id="carga_trabajo" required length='45' />
-				<label for="icon_prefix">Carga de trabajo</label>
 		    </div>	    
 		</div>
 		<div class="row">
@@ -77,14 +75,6 @@
 					<option>Equipo</option>
 				</select>
 	       	</div>
-		    <!--div class="col s6">
-		    	<label for="fecha_ini">Fecha de inicio</label>
-		    	<input type="date" id="fecha_ini" name="fecha_ini" class="datepicker" required >
-		    	<label for="fecha_fin">Fecha final</label>
-		    	<input type="date" id="fecha_fin" name="fecha_fin" class="datepicker" required >
-			    
-		    </div>
-		    -->
 		</div>
 		<div class="row">
 		    <div class="col s6">
@@ -241,8 +231,6 @@
 				</select>
 		    </div>	
 		    <div class="input-field col s6">
-			   	<input type="text" name="carga_trabajo" id="carga_trabajoEdit" required length='45' />
-				<label for="icon_prefix">Carga de trabajo</label>
 		    </div>	    
 		</div>
 		<div class="row">
@@ -259,14 +247,6 @@
 					<option>Equipo</option>
 				</select>
 	       	</div>
-		    <!--div class="col s6">
-		    	<label for="fecha_ini">Fecha de inicio</label>
-		    	<input type="date" id="fecha_ini" name="fecha_ini" class="datepicker" required >
-		    	<label for="fecha_fin">Fecha final</label>
-		    	<input type="date" id="fecha_fin" name="fecha_fin" class="datepicker" required >
-			    
-		    </div>
-		    -->
 		</div>
 		<div class="row">
 		    <div class="col s6">

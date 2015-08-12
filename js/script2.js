@@ -476,6 +476,23 @@ $(document).on("click","a", function(){
 					})
 				})
 			})
+		}else if(seccion.indexOf("miMedida")>=0){
+				
+			idMedida = $(this).attr('id')
+			alert(idMedida)
+
+			$.ajax({
+				method: 'GET',
+				data: {table : 'tarea' , id : idMedida , idTable : 'idMedida'},
+				url: "getByID.php",
+			}).done(function(resultado){
+				res = JSON.parse(resultado);
+				$("#idMedida").val(res.idMedida)//el id para actualizar los datos
+				$("#nomMedida").html("Medida: <b>"+res.nombre+"</b>");
+				$("#nombre2").val(res.nombre);
+			 	$("#descripcion2").val(res.descripcion);
+			 	$("#unidad_medida2").val(res.unidad_medida);
+			})
 		}
 		$("#editarGuia").openModal()
 	}

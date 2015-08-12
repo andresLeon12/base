@@ -46,27 +46,31 @@ $(document).ready(function(){
 		break;
 		case 'recursos':
 		$("#recursosLi").addClass("active");
-		$("#guiasLi,#activosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,entradasLi").removeClass("active");
+		$("#guiasLi,#activosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi").removeClass("active");
 		break;
 		case 'guias':
 		$("#guiasLi").addClass("active");
-		$("#modelsLi,#activosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,entradasLi").removeClass("active");
+		$("#modelsLi,#activosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi").removeClass("active");
 		break;
 		case 'activos':
 		$("#activosLi").addClass("active");
-		$("#guiasLi,#recursosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,entradasLi").removeClass("active");
+		$("#guiasLi,#recursosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi").removeClass("active");
 		break;
 		case 'tareas':
 		$("#tareasLi").addClass("active");
-		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#salidasLi,entradasLi").removeClass("active");
+		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi").removeClass("active");
 		break;
 		case 'entradas':
-		$("#tareasLi").addClass("active");
-		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#salidasLi,tareasLi").removeClass("active");
+		$("#entradasLi").addClass("active");
+		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#salidasLi,#tareasLi,medidasLi").removeClass("active");
 		break;
 		case 'salidas':
-		$("#tareasLi").addClass("active");
-		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#tareasLi,entradasLi").removeClass("active");
+		$("#salidasLi").addClass("active");
+		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#tareasLi,#entradasLi,#medidasLi").removeClass("active");
+		break;
+		case 'medidas':
+		$("#medidasLi").addClass("active");
+		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#tareasLi,#entradasLi").removeClass("active");
 		break;
 	}
 });
@@ -684,6 +688,26 @@ $(document).on("click","a", function(){
 
 			$("#editarGuia").openModal()
 
+		}else if(seccion.indexOf("miMedida")>=0){
+				
+			idMedida = $(this).attr('id')
+			$.ajax({
+				method: 'GET',
+				data: {table : 'medida' , id : idMedida , idTable : 'idMedida'},
+				url: "getByID.php",
+			}).done(function(resultado){
+				res = JSON.parse(resultado);
+				$("#idMedida").val(res.idMedida)//el id para actualizar los datos
+				$("#nomMedida").html("Medida: <b>"+res.nombre+"</b>");
+				$("#nombre2").val(res.nombre);
+				$("#nombre2").focus()
+			 	$("#descripcion2").val(res.descripcion);
+			 	$("#descripcion2").focus()
+			 	$("#unidad_medida2").val(res.unidad_medida);
+			 	$("#unidad_medida2").focus()
+			 	$("#nombre2").focus()
+			})
+			$("#editarGuia").openModal()
 		}
 		//$("#editarGuia").openModal()
 		}
@@ -696,21 +720,21 @@ $(document).on("click","#fases",function(){
 	//alert("Fases");
 	$('#content').load('fases.php');//cargando la vista de fase.php en el div con el id de content
 	$("#fasesLi").addClass("active");
-	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#modelsLi,#actividadesLi,#entradasLi,#salidasLi").removeClass("active");
+	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#modelsLi,#actividadesLi,#entradasLi,#salidasLi,#medidasLi").removeClass("active");
 	pag_act = 'fases';
 });
 
 $(document).on("click","#modelos",function(){
 	$("#content").load('administrador.php');
 	$("#modelsLi").addClass("active");
-	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#actividadesLi,#entradasLi,#salidasLi").removeClass("active");
+	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#actividadesLi,#entradasLi,#salidasLi,#medidasLi").removeClass("active");
 	pag_act = 'modelos';
 });
 // Cargamos contenido de actividades
 $(document).on("click","#actividades",function(){
 	$("#content").load('actividades.php');
 	$("#actividadesLi").addClass("active");
-	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#modelsLi,#entradasLi,#salidasLi").removeClass("active");
+	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#modelsLi,#entradasLi,#salidasLi,#medidasLi").removeClass("active");
 	pag_act = 'actividades';
 });
 
@@ -718,7 +742,7 @@ $(document).on("click","#actividades",function(){
 $(document).on("click","#entradas",function(){
 	$("#content").load('entradas.php');
 	$("#entradasLi").addClass("active");
-	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#modelsLi,salidasLi,actividadesLi").removeClass("active");
+	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#modelsLi,#salidasLi,#actividadesLi,#medidasLi").removeClass("active");
 
 	pag_act = 'entradas';
 });
@@ -726,7 +750,7 @@ $(document).on("click","#entradas",function(){
 $(document).on("click","#salidas",function(){
 	$("#content").load('salidas.php');
 	$("#salidasLi").addClass("active");
-	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#modelsLi,entradasLi,#actividadesLi").removeClass("active");
+	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#modelsLi,#entradasLi,#actividadesLi,#medidasLi").removeClass("active");
 	pag_act = 'salidas';
 });
 /*********************************/
@@ -734,29 +758,37 @@ $(document).on("click","#guias",function(){
 	//alert("guias");
 	$('#content').load('guias.php');//cargando la vista de fase.php en el div con el id de content
 	$("#guiasLi").addClass("active");
-	$("#modelsLi,#activosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#entradasLi,#salidasLi").removeClass("active");
+	$("#modelsLi,#activosLi,#tareasLi,#fasesLi,#actividadesLi,#entradasLi,#salidasLi,#medidasLi,#recursosLi").removeClass("active");
 	pag_act = 'guias';
 });
 // 
 $(document).on("click","#tareas",function(){
 	$('#content').load('tareas.php');//cargando la vista de fase.php en el div con el id de content
 	$("#tareasLi").addClass("active");
-	$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#entradasLi,#salidasLi").removeClass("active");
+	$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#entradasLi,#salidasLi,#medidasLi").removeClass("active");
 	pag_act = 'tareas';
 });
 $(document).on("click","#recursos",function(){
 	//alert("guias");
 	$('#content').load('recursos.php');//cargando la vista de fase.php en el div con el id de content
 	$("#recursosLi").addClass("active");
-	$("#guiasLi,#activosLi,#actividadesLi,#tareasLi,#fasesLi,#modelsLi,#entradasLi,#salidasLi").removeClass("active");
+	$("#guiasLi,#activosLi,#actividadesLi,#tareasLi,#fasesLi,#modelsLi,#entradasLi,#salidasLi,#medidasLi").removeClass("active");
 	pag_act = 'recursos'
 });
 $(document).on("click","#activos",function(){
 	//alert("guias");
 	$('#content').load('recursos.php');//cargando la vista de fase.php en el div con el id de content
-	$("#recursosLi").addClass("active");
-	$("#guiasLi,#recursosLi,#actividadesLi,#tareasLi,#fasesLi,#modelsLi,#entradasLi,#salidasLi").removeClass("active");
+	$("#activosLi").addClass("active");
+	$("#guiasLi,#actividadesLi,#tareasLi,#fasesLi,#modelsLi,#entradasLi,#salidasLi,#medidasLi,#recursosLi").removeClass("active");
 	pag_act = 'recursos'
+});
+// Medidas
+$(document).on("click","#medidas",function(){
+	//alert("guias");
+	$('#content').load('medidas.php');//cargando la vista de fase.php en el div con el id de content
+	$("#medidasLi").addClass("active");
+	$("#guiasLi,#recursosLi,#actividadesLi,#tareasLi,#fasesLi,#modelsLi,#entradasLi,#salidasLi").removeClass("active");
+	pag_act = 'medidas'
 });
 
 /*--------------------------------------EDIEL---------------------*/

@@ -42,7 +42,7 @@ if(empty($_SESSION['usuario']))
           <li class="" id="guiasLi"><a href='#guias' id="guias">Gu&iacute;as</a></li>
           <li class="" id="activosLi"><a href='#activos' id="activos">Activos</a></li>
           <li class="" id="recursosLi"><a href='#recursos' id="recursos">Recursos</a></li>
-          
+          <li class="" id="medidasLi"><a href='#medidas' id="medidas">Medidas</a></li>
         </ul>
       </div>
     </nav>
@@ -69,6 +69,8 @@ if(empty($_SESSION['usuario']))
             include 'entradas.php';
           }elseif ($_SESSION['pag_act'] == 'salidas') {
             include 'salidas.php';
+          }elseif ($_SESSION['pag_act'] == 'medidas') {
+            include 'medidas.php';
           }
         }
 

@@ -8,7 +8,6 @@
 		$id = $_POST['idRecurso'];
 		$idActividad = $_POST['idActividad'];
 		$idTipo = $_POST['tipo'];
-		$carga_trabajo = $_POST['carga_trabajo'];
 		$descripcion = $_POST['descripcion'];
 		$nombre = $_POST['nombre'];
 		if($idActividad == 'Selecciona una Actividad'){
@@ -39,7 +38,7 @@
 				header("location: inicio_admin.php");
 				return;
 			}
-			$query = "UPDATE recursof SET nombre='$nombre',tipo='$idTipo',descripcion='$descripcion',carga_trabajo='$carga_trabajo' WHERE idRecursoFisico=$id";
+			$query = "UPDATE recursof SET nombre='$nombre',tipo='$idTipo',descripcion='$descripcion' WHERE idRecursoFisico=$id";
 		}else{
 			$ban = 0;
 			$query = "SELECT * FROM recursoh WHERE nombre='$nombre' and tipo='$idTipo'";
@@ -63,7 +62,7 @@
 			}
 			echo $ban."==".count($consulta);
 			echo "<br>".$_SESSION['msj'];
-			$query = "UPDATE recursoh SET nombre='$nombre',tipo='$idTipo',carga_trabajo='$carga_trabajo' WHERE idRecursoHumano=$id";
+			$query = "UPDATE recursoh SET nombre='$nombre',tipo='$idTipo' WHERE idRecursoHumano=$id";
 		}
 		if ($conex->insert($query)) {
 			if($_POST['tipo_recurso'] == "fisico"){
@@ -87,11 +86,8 @@
 		$conex = new Conexion;
 		$idActividad = $_POST['idActividad'];
 		$idTipo = $_POST['tipo'];
-		$carga_trabajo = $_POST['carga_trabajo'];
 		$descripcion = $_POST['descripcion'];
-		$nombre = $_POST['nombre'];/*
-		$fecha_ini = $_POST['fecha_ini'];
-		$fecha_fin = $_POST['fecha_fin'];*/
+		$nombre = $_POST['nombre'];
 		if($idActividad == 'Selecciona una Actividad'){
 			$_SESSION["msj"] = "Por favor selecciona una actividad";
 			header("location: inicio_admin.php");
@@ -120,7 +116,7 @@
 				header("location: inicio_admin.php");
 				return;
 			}
-			$query = "INSERT INTO recursof VALUES(null,'$nombre','$idTipo','$descripcion','$carga_trabajo')";
+			$query = "INSERT INTO recursof VALUES(null,'$nombre','$idTipo','$descripcion')";
 		}else{
 			$ban = 0;
 			$query = "SELECT * FROM recursoh WHERE nombre='$nombre' and tipo='$idTipo'";
@@ -139,7 +135,7 @@
 					return;
 				}
 			}
-			$query = "INSERT INTO recursoh VALUES(null,'$nombre','$idTipo','$carga_trabajo')";
+			$query = "INSERT INTO recursoh VALUES(null,'$nombre','$idTipo')";
 		}
 		//return;
 		if ($conex->insert($query)) {

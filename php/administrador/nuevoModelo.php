@@ -11,7 +11,7 @@
 		$descripcion = $_POST["descripcionAct"];
 		$version = $_POST["versionAct"];
 
-		$duplicarRegistro =  json_decode($conex->get("SELECT * FROM modelo_p where nombreM='$nombre' and version='$version'"));
+		$duplicarRegistro =  json_decode($conex->get("SELECT * FROM modelo_p where nombreM='$nombre' and descripcion='$descripcion' and version='$version'"));
 		if (count($duplicarRegistro) > 0) {
 			$_SESSION["msj"] = "Error!. Ya existe este Modelo con esta versión.";
 			header("location: inicio_admin.php");
@@ -137,6 +137,7 @@
 				}
 			}
 		}
+		return;
 		$query  = "DELETE FROM modelo_p WHERE idModelo_P='$idd'";
 		$_SESSION['pag_act'] = 'modelos'; /// crear sesion de modelos
 		if ($conex->insert($query)) {
