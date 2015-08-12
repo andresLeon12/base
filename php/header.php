@@ -10,5 +10,5 @@
           <li class="active"><a href='../logout.php'>Cerrar Sesión</a></li>
         </ul>
       </div>
-    </nav>
-  </div>
+  </nav>
+</div>

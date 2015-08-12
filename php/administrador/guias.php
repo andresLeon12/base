@@ -10,7 +10,7 @@
 	include_once("../Conexion.class.php");
 	$conex = new Conexion;
 
-	$misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM FROM modelo_p"));
+	$misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM,version FROM modelo_p"));
  ?>
 <div class="row"></div>
 <div class="container">	
@@ -35,13 +35,14 @@
 				<select tabindex="1" class="browser-default" id="models" name='idModel'><option>Selecciona un modelo</option>
 				<?php
                 	for($i=0;$i<count($misModelos);$i++){
-						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM}</option>";
+						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM} V {$misModelos[$i]->version}</option>";
 					} ?>
 				</select>
 		    </div>
-		    <div class="input-field col s6">
+		    <div class=" col s6">
+			   	<label>Tipo</label>
 			   	<input tabindex="4" type="text" name="tipo" id="tipoGuia"required />
-				<label for="icon_prefix">Tipo</label>
+				
 		    </div>
 		    
 		</div>
@@ -122,13 +123,13 @@
 				$query = "SELECT nombreM FROM modelo_P WHERE idModelo_P=".$fase->Modelo_P_idModelo_P;
 				$model = json_decode($conex->getById($query));
 				echo "<td>".$model->nombreM."</td>";
+				echo "<td><a href='#!' id='".$guias[$i]->idGuia."' class='miGuia btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-settings'>Editar</i></a></td>";
 				echo "<td>
 				<form class='eliminarGuia' id='eliminarGuia-".$i."' method='POST'>
 					<input type='hidden' id='idGuia-".$i."' value='".$guias[$i]->idGuia."'/>
 					<input type='hidden'  id='nombreGuia-".$i."' value='".$guias[$i]->nombre."'/>
 					<button type='submit' name='eliminar' class='btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-delete'></i></button>
 				</form></td>";
-				echo "<td><a href='#!' id='".$guias[$i]->idGuia."' class='miGuia btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-settings'>Editar</i></a></td>";
 			echo "</tr>";
 		//echo "</form>";
 	}
@@ -166,7 +167,7 @@
 				<select tabindex="1" class="browser-default" id="modelsEdit" name='idModel'><option>Selecciona un modelo</option>
 				<?php
                 	for($i=0;$i<count($misModelos);$i++){
-						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM}</option>";
+						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM} V {$misModelos[$i]->version}</option>";
 					} ?>
 				</select>
 		    </div>

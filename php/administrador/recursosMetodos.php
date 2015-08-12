@@ -21,15 +21,55 @@
 			header("location: inicio_admin.php");
 			return;
 		}
-		if($_POST['tipo_recurso'] == "fisico")
+		if($_POST['tipo_recurso'] == "fisico"){
+			$ban = 0;
+			$query = "SELECT * FROM recursof WHERE nombre='$nombre' and tipo='$idTipo'";
+			$consulta = json_decode($conex->get($query));
+			if(count($consulta) > 0){
+				for($i=0;$i<count($consulta);$i++){
+					$query = "SELECT * FROM actividad_rf WHERE RecursoF_idRecursoFisico=".$consulta[$i]->idRecursoFisico." and Actividad_idActividad=$idActividad";
+					$consulta2 = json_decode($conex->get($query));
+					if(count($consulta2) > 0){
+						$ban++;
+					}
+				}
+			}
+			if($ban > 0){
+				$_SESSION['msj'] = "Este recurso ya existe";
+				header("location: inicio_admin.php");
+				return;
+			}
 			$query = "UPDATE recursof SET nombre='$nombre',tipo='$idTipo',descripcion='$descripcion',carga_trabajo='$carga_trabajo' WHERE idRecursoFisico=$id";
-		else
+		}else{
+			$ban = 0;
+			$query = "SELECT * FROM recursoh WHERE nombre='$nombre' and tipo='$idTipo'";
+			echo $query."<br>";
+			$consulta = json_decode($conex->get($query));
+			if(count($consulta) > 0){
+				for($i=0;$i<count($consulta);$i++){
+					$query = "SELECT * FROM actividad_rh WHERE RecursoH_idRecursoHumano=".$consulta[$i]->idRecursoHumano." and Actividad_idActividad=$idActividad";
+					echo $query."<br>";
+					$consulta2 = json_decode($conex->get($query));
+					if(count($consulta2) > 0){
+						echo "Encontrado ".$ban."<br>";
+						$ban++;
+					}
+				}
+				if($ban == count($consulta)){
+					$_SESSION['msj'] = "Este recurso ya existe";
+					header("location: inicio_admin.php");
+					return;
+				}
+			}
+			echo $ban."==".count($consulta);
+			echo "<br>".$_SESSION['msj'];
 			$query = "UPDATE recursoh SET nombre='$nombre',tipo='$idTipo',carga_trabajo='$carga_trabajo' WHERE idRecursoHumano=$id";
+		}
 		if ($conex->insert($query)) {
 			if($_POST['tipo_recurso'] == "fisico"){
-				$query = "UPDATE actividad_rf SET Actividad_idActividad = $idActividad";
+				$query = "UPDATE actividad_rf SET Actividad_idActividad = $idActividad WHERE RecursoF_idRecursoFisico=$id";
 			}else{
-				$query = "UPDATE actividad_rh SET Actividad_idActividad = $idActividad";
+				$query = "UPDATE actividad_rh SET Actividad_idActividad = $idActividad WHERE RecursoH_idRecursoHumano=$id";
 			}
 			if ($conex->insert($query)) {
 				$_SESSION["msj"] = "Recurso Actualizado ";
@@ -62,10 +102,46 @@
 			header("location: inicio_admin.php");
 			return;
 		}
-		if($_POST['tipo_recurso'] == "fisico")
+		if($_POST['tipo_recurso'] == "fisico"){
+			$ban = 0;
+			$query = "SELECT * FROM recursof WHERE nombre='$nombre' and tipo='$idTipo'";
+			$consulta = json_decode($conex->get($query));
+			if(count($consulta) > 0){
+				for($i=0;$i<count($consulta);$i++){
+					$query = "SELECT * FROM actividad_rf WHERE RecursoF_idRecursoFisico=".$consulta[$i]->idRecursoFisico." and Actividad_idActividad=$idActividad";
+					$consulta2 = json_decode($conex->get($query));
+					if(count($consulta2) > 0){
+						$ban++;
+					}
+				}
+			}
+			if($ban > 0){
+				$_SESSION['msj'] = "Este recurso ya existe";
+				header("location: inicio_admin.php");
+				return;
+			}
 			$query = "INSERT INTO recursof VALUES(null,'$nombre','$idTipo','$descripcion','$carga_trabajo')";
-		else
+		}else{
+			$ban = 0;
+			$query = "SELECT * FROM recursoh WHERE nombre='$nombre' and tipo='$idTipo'";
+			$consulta = json_decode($conex->get($query));
+			if(count($consulta) > 0){
+				for($i=0;$i<count($consulta);$i++){
+					$query = "SELECT * FROM actividad_rh WHERE RecursoH_idRecursoHumano=".$consulta[$i]->idRecursoHumano." and Actividad_idActividad=$idActividad";
+					$consulta2 = json_decode($conex->get($query));
+					if(count($consulta2) > 0){
+						$ban++;
+					}
+				}
+				if($ban == count($consulta)){
+					$_SESSION['msj'] = "Este recurso ya existe";
+					header("location: inicio_admin.php");
+					return;
+				}
+			}
 			$query = "INSERT INTO recursoh VALUES(null,'$nombre','$idTipo','$carga_trabajo')";
+		}
+		//return;
 		if ($conex->insert($query)) {
 			if($_POST['tipo_recurso'] == "fisico"){
 				$query = "SELECT idRecursoFisico FROM recursof";

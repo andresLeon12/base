@@ -36,11 +36,12 @@ if(session_id()==null)
 		<form  action="nuevoModelo.php" method="POST">
 			<div class="row">
 				<div class="input-field col s6">
-				   	<input type="text" name="nombre" id="nombre"required />
+				   	<input type="text" name="nombre" id="nombre"required/>
 					<label for="icon_prefix">Nombre del modelo</label>
 			    </div>
 			    <div class="input-field col s6">
 				   	<input type="text" name="version" id="version"  required/><br>
+				   	<div id="errorVersion" style="color:red;"></div>
 					<label for="icon_prefix">Versi&oacute;n</label>
 			    </div>
 			</div>
@@ -52,7 +53,8 @@ if(session_id()==null)
 			</div>
 			<div class="row">
 				<div class="input-field col s7 offset-s4">
-				    <input type="submit" name="Agregar" class="btn wave-effect" id="entrar" value="Agregar" />
+				    <input type='submit' name='Agregar' value="Agregar" onClick="return checkDecimals(this.form.version, this.form.version.value)" class="btn wave-effect">
+				    <!--input type="submit" name="Agregar" class="btn wave-effect" id="entrar" value="Agregar" /-->
 			    </div>
 			</div>
 		</form>
@@ -101,8 +103,8 @@ if(session_id()==null)
 				echo "<td>".$modelos[$i]->nombreM."</td>";
 				echo "<td>".$modelos[$i]->descripcion."</td>";
 				echo "<td>".$modelos[$i]->version."</td>";
-				echo "<td><a href='#act' id='".$modelos[$i]->idModelo_P."' class='btn-floating btn-large waves-effect waves-light blue'><i class='mdi-action-settings'></i>Editar</a></td>";
-				echo "<td><a href='#eli' id='".$modelos[$i]->idModelo_P."' class='btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-delete'></i></a></td>";
+				echo "<td style='text-align:center;'><a href='#act' id='".$modelos[$i]->idModelo_P."' class='btn-floating btn-large waves-effect waves-light blue'><i class='mdi-action-settings'></i>Editar</a></td>";
+				echo "<td style='text-align:center;'><a href='#eli' id='".$modelos[$i]->idModelo_P."' class='btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-delete'></i></a></td>";
 				//echo "<td><a href='#!' id='".$modelos[$i]->idModelo_P."' class='btn wave-effect'>Editar</a></td>";
 				//echo "<td><a href='#' id='".$modelos[$i]->idModelo_P."' class='red btn wave-effect'>Eliminar</a></td>";
 			echo "</tr>";
@@ -115,17 +117,13 @@ if(session_id()==null)
 <!-- FIN mostrar modelos -->
 
 
-
-
-
+<!-- INICIO Modal para ediatr el modelo -->
 <div id="model" class="modal">
 	<div class="modal-content">
 		<div class="row">
-			<div class="col s3">
-				<h4 id="nomModelo">Prueba</h4>
+			<div class="col s10">
+				<h5 id="nomModelo"></h5>
 			</div>
-			
-			
 		</div>
 		<form  action="nuevoModelo.php" method="POST">
 			<input type="hidden" name="idModelo" id="idModelo"/>
@@ -144,22 +142,27 @@ if(session_id()==null)
 	      	<div class="row">
 				<div class="input-field col s10 offset-s1">
 				   	<input type="text" name="versionAct" id="version2"  required/><br>
+				   	<!--div id="errorVersion" style="color:red;"></div-->
 					<label for="icon_prefix">Versi&oacute;n</label>
 			    </div>
 			</div>
 			<div class="row">
 				<div class="input-field col s7 offset-s4">
-				    <input type="submit" name="actualizar" class="btn wave-effect" id="entrar" value="Actualizar" />
+				    <!--input type="submit" name="actualizar" class="btn wave-effect" id="entrar" value="Actualizar" /-->
 			    </div>
+			</div>
+			<div class="modal-footer">
+				<a class="modal-action modal-close wavs-effects wavs-green btn-flat" style="color:red;">Cerrar</a>
+				<!--input type="submit" name="actualizar" class="btn wave-effect" id="entrar" value="Actualizar" /-->
+				<input type="submit" name="actualizar" id="entrar" value="Actualizar informacion" style="color:blue;"  class="wavs-effects wavs-green btn-flat" onclick="return checkDecimals(this.form.versionAct, this.form.versionAct.value)">
+				<!--input type='submit' name='Agregar' value="Agregar" onClick="return checkDecimals(this.form.version, this.form.version.value)" class="btn wave-effect"-->
 			</div>
 		</form>
 	</div>
-	<div class="modal-footer">
-		<a class="modal-action modal-close wavs-effects wavs-green btn-flat">Cerrar</a>
-	</div>
 </div>
+<!-- F I N modal para editar modelo -->
 
-<!--modal eliminar -->
+<!-- INICIO modal eliminar modelo -->
 	<div id="modalx" class="modal bottom-sheet">
 	<form action="nuevoModelo.php">
 		<div class="modal-content">
@@ -167,17 +170,14 @@ if(session_id()==null)
 	      <p>Ten en cuenta que se eliminara todo lo relacionado a este modelo</p>
 	    </div>
 	    <div class="modal-footer">
-	    	
-	      	<a  class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-	      	<input type="submit" name="eliminar" value="Si deseo Eliminar el modelo"  class="wavs-effects wavs-green btn-flat">
+	      	<a  class=" modal-action modal-close waves-effect waves-green btn-flat" style="color:blue;">Cancelar</a>
+	      	<input type="submit" name="eliminar" value="Si deseo Eliminar el modelo" style="color:red;"  class="wavs-effects wavs-green btn-flat">
 	      	<input type='text' hidden name="idEliminar" id="idEliminar" value="0">
 	    </div>
 	</form>
     
   </div>
-<!--    fin modal eliminar -->
-
-
+<!-- F I N modal eliminar modelo -->
 
 <div class="row"></div>
 <br>

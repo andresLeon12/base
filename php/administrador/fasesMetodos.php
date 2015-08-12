@@ -5,16 +5,17 @@
 	
 	//$accion = $_POST['accion'];
 
+	$conex = new Conexion;
+
 	if(isset($_POST['Agregar'])){
 		$nombre = $_POST["nombre"];
 		$descripcion = $_POST["descripcion"];
 		$orden = $_POST["orden"];
 		$idModelo = $_POST["modeloN"];
-		$conex = new Conexion;
-		$query = "SELECT * FROM fase WHERE nombre='$nombre' and Modelo_P_idModelo_P=$idModelo";
-		$consulta = json_decode($conex->get($query));
-		if(count($consulta) > 0){
-			$_SESSION['msj'] = "Esta fase ya ha sido agregada.";
+
+		$duplicarRegistro =  json_decode($conex->get("SELECT * FROM fase where (nombre='$nombre' or orden='$orden') and Modelo_P_idModelo_P=$idModelo"));
+		if (count($duplicarRegistro) > 0) {
+			$_SESSION["msj"] = "Error!. Ya existe esta Fase.";
 			header("location: inicio_admin.php");
 			return;
 		}
@@ -24,6 +25,8 @@
 			header("location: inicio_admin.php");
 			return;
 		}
+
+		//$conex = new Conexion;
 		
 
 		$query  = "insert into fase(nombre,descripcion,orden,Modelo_P_idModelo_P) values ('$nombre','$descripcion','$orden',$idModelo)";
@@ -35,9 +38,10 @@
 		}
 
 		header("location: inicio_admin.php");
+
 	}elseif (isset($_GET['getByModel'])) {
 		# Obtenemos fases de un modelo
-		$conex = new Conexion;
+		//$conex = new Conexion;
 		
 		$query  = "SELECT idFase, nombre FROM fase WHERE Modelo_P_idModelo_P=".$_GET['getByModel'];
 
@@ -49,25 +53,61 @@
 		$idModelo = $_POST["modeloN2"];
 		$idFase = $_POST["idFase"];//para editar esa fase en especifico
 
-		if($idModelo == 0){
-			$_SESSION["msj"] = "Es necesario seleccionar un Modelo de Proceso. Asegurate de que existan Modelos de Proceso.";
-			header("location: inicio_admin.php");
-			return;
-		}
+		//nombre,orden,idModelo
+		$oldData = json_decode($conex->get("SELECT * FROM fase where idFase=$idFase"));
+		$oldName = $oldData[0]->nombre;
+		$oldOrden = $oldData[0]->orden;
+		$oldModelo = $oldData[0]->Modelo_P_idModelo_P;
 
-		$conex = new Conexion;
-		
+		if($oldName == $nombre && $orden == $oldOrden && $oldModelo == $idModelo){
+			$query  = "update fase set nombre='$nombre',descripcion='$descripcion',orden='$orden',Modelo_P_idModelo_P=$idModelo where idFase=$idFase";
 
-		//$query = "update modelo_p set nombreM='$nombre',descripcion='$descripcion',version='$version' where idModelo_P=$id";
-		$query  = "update fase set nombre='$nombre',descripcion='$descripcion',orden='$orden',Modelo_P_idModelo_P=$idModelo where idFase=$idFase";
-
-		if ($conex->insert($query)) {
-			$_SESSION["msj"] = "Fase Editada Satisfactoriamente";
+			if ($conex->insert($query)) {
+				$_SESSION["msj"] = "Fase Editada Satisfactoriamente";
+			}else{
+				$_SESSION["msj"] = "Fase No Editada";
+			}
 		}else{
-			$_SESSION["msj"] = "Fase No Editada";
+			$band = 0;
+			if ($oldName != $nombre) {
+				$duplicarRegistro =  json_decode($conex->get("SELECT * FROM fase where nombre='$nombre' and Modelo_P_idModelo_P=$idModelo"));			
+				if (count($duplicarRegistro) > 0) {//el nombre no existe en la bd	
+					$band++;
+				}		
+			}
+
+			if ($oldOrden != $orden) {
+				$duplicarRegistro =  json_decode($conex->get("SELECT * FROM fase where orden='$orden' and Modelo_P_idModelo_P=$idModelo"));			
+				if (count($duplicarRegistro) > 0) {//el nombre no existe en la bd	
+					$band++;
+				}		
+			}
+
+			if ($oldModelo != $idModelo) {
+				$duplicarRegistro =  json_decode($conex->get("SELECT * FROM fase where (nombre='$nombre' or orden='$orden' ) and Modelo_P_idModelo_P=$idModelo"));			
+				if (count($duplicarRegistro) > 0) {//el nombre no existe en la bd	
+					$band++;
+				}	
+			}
+
+			if ($band == 0) {
+
+				if($idModelo == 0){
+					$_SESSION["msj"] = "Es necesario seleccionar un Modelo de Proceso. Asegurate de que existan Modelos de Proceso.";
+					header("location: inicio_admin.php");
+					return;
+				}
+				$query  = "update fase set nombre='$nombre',descripcion='$descripcion',orden='$orden',Modelo_P_idModelo_P=$idModelo where idFase=$idFase";
+				if ($conex->insert($query)) {
+					$_SESSION["msj"] = "Fase Editada Satisfactoriamente";
+				}else{
+					$_SESSION["msj"] = "Fase No Editada";
+				}
+			}else{
+				$_SESSION["msj"] = "Fase No Editada";
+			}
 		}
 
-		//$_SESSION["modelos"] = $conex->get("modelo_p");
 		header("location: inicio_admin.php");
 
 
@@ -75,7 +115,6 @@
 		$idFase = $_POST['idFaseForm'];
 		$nomFase = $_POST['nombreFaseForm'];
 
-		$conex = new Conexion;
 		$query  = "SELECT idActividad FROM actividad WHERE Fase_idFase=".$idFase;
 			$consulta = json_decode($conex->getById($query));
 			if(count($consulta) > 0){
@@ -104,11 +143,23 @@
 					$query  = "DELETE FROM recursoH WHERE idRecursoHumano=".$consulta->RecursoH_idRecursoHumano;
 					$conex->insert($query);
 				}
+				$query  = "SELECT Entrada_idEntrada FROM act_ent WHERE Actividad_idActividad=".$idActividad;
+				$consulta = json_decode($conex->getById($query));
+				if(count($consulta) > 0){
+					$query  = "DELETE FROM entrada WHERE idEntrada=".$consulta->Entrada_idEntrada;
+					$conex->insert($query);
+				}
+				$query  = "SELECT Salida_idSalida FROM act_sal WHERE Actividad_idActividad=".$idActividad;
+				$consulta = json_decode($conex->getById($query));
+				if(count($consulta) > 0){
+					$query  = "DELETE FROM salida WHERE idSalida=".$consulta->Salida_idSalida;
+					$conex->insert($query);
+				}
 			}
+
 		$query  = "DELETE FROM fase WHERE idFase = $idFase";
 
 		if ($conex->insert($query)) {
-
 			$_SESSION["msj"] = "Se ha borrado ".$nomFase;
 		}else{
 			$_SESSION["msj"] = "Hubo un error al borrar ".$nomFase;

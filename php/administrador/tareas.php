@@ -13,7 +13,7 @@ if (session_id()==null)
 
 include_once ("../Conexion.class.php");
 $conex = new Conexion;
-$misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM FROM modelo_p"));
+$misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM,version FROM modelo_p"));
 //$misActividades =  json_decode($conex->get("SELECT idActividad,nombre FROM actividad"));
 ?>
 <!-- Dar de alta nueva fase del modelo -->
@@ -41,7 +41,7 @@ $misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM FROM modelo_p"
 				<select tabindex="1" class="browser-default" id="models" name='idModel'><option>Selecciona un modelo</option>
 				<?php
                 	for($i=0;$i<count($misModelos);$i++){
-						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM}</option>";
+						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM} V {$misModelos[$i]->version}</option>";
 					} ?>
 				</select>
 		    </div>

@@ -15,12 +15,12 @@ if (session_id()==null)
 include_once ("../Conexion.class.php");
 $conex = new Conexion;
 
-$misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM FROM modelo_p"));
+$misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM,version FROM modelo_p"));
 ?>
 <!-- Dar de alta nueva fase del modelo -->
 <div class="row">
 	<div class="col s6">
-		<blockquote><h5>Nuevo modelo de procesos</h5></blockquote>		
+		<blockquote><h5>Nueva Fase</h5></blockquote>		
 	</div>
 	<div class="col s6">
 		<blockquote class="blockquote-right" id="errores"><?php 
@@ -33,28 +33,30 @@ $misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM FROM modelo_p"
 </div>
 	<form  action="fasesMetodos.php" method="POST" id="submitFases">
 			<div class="row">
-				<div class="input-field col s6">
+				<div class="input-field col s12">
 				   	<input type="text" name="nombre" id="nombre"required />
 					<label for="icon_prefix">Nombre de la fase</label>
-			    </div>
-			    <div class="input-field col s6">
-				   	<input type="text" name="orden" id="orden"  required/><br>
-					<label for="icon_prefix">Orden</label>
 			    </div>
 			</div>
 			<div class="row">
 	        	<div class=" col s10">
 	          		<label>Modelo a la que pertenece:</label>
 	          		<?php
-                	echo "<select name='modeloN' class='browser-default' required>";
+                	echo "<select name='modeloN' id='modeloOptions' class='browser-default' required>";
                 		echo "<option value='0'>Seleccione un Modelo de Proceso</option>";
                 		for($i=0;$i<count($misModelos);$i++){
-							echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM}</option>";
+							echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM} V {$misModelos[$i]->version}</option>";
 						}
                 	echo "</select>";
             		?>
 	        	</div>
 	      	</div>
+	      	<div class="row">
+			    <div class="input-field col s12">
+				   	<input type="number" name="orden" id="orden" min='1'  required/><br>
+					<label for="icon_prefix">Orden</label>
+			    </div>
+			</div>
 			<div class="row">
 	        	<div class="input-field col s12">
 	          		<textarea name="descripcion" class="materialize-textarea" required></textarea>
@@ -83,7 +85,7 @@ $misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM FROM modelo_p"
 
 <?php 
 $_SESSION['pag_act'] = 'fases';
-$fases =  json_decode($conex->get("SELECT fase.idFase,fase.nombre,fase.descripcion,fase.orden,modelo_p.nombreM FROM fase,modelo_p where fase.Modelo_P_idModelo_P=modelo_p.idModelo_P"));
+$fases =  json_decode($conex->get("SELECT fase.idFase,fase.nombre,fase.descripcion,fase.orden,modelo_p.nombreM,modelo_p.version FROM fase,modelo_p where fase.Modelo_P_idModelo_P=modelo_p.idModelo_P"));
 //$fases =  json_decode($conex->get("SELECT * FROM fase"));
 
 if(count($fases)==0){
@@ -112,9 +114,9 @@ for($i=0;$i<count($fases);$i++){
 		echo "<td>".$fases[$i]->nombre."</td>";
 		echo "<td>".$fases[$i]->descripcion."</td>";
 		echo "<td style='text-align:center;'>".$fases[$i]->orden."</td>";
-		echo "<td style='text-align:center;'>".$fases[$i]->nombreM."</td>";
-		echo "<td><a href='#!' id='".$fases[$i]->idFase."' class='miFase btn-floating btn-large waves-effect waves-light blue'><i class='mdi-action-settings'></i>Editar</a></td>";
-		echo "<td><form class='eliminarFase' id='eliminarFase-".$i."' method='POST'>";
+		echo "<td style='text-align:center;'>".$fases[$i]->nombreM." V ".$fases[$i]->version."</td>";
+		echo "<td style='text-align:center;'><a href='#!' id='".$fases[$i]->idFase."' class='miFase btn-floating btn-large waves-effect waves-light blue'><i class='mdi-action-settings'></i>Editar</a></td>";
+		echo "<td style='text-align:center;'><form class='eliminarFase' id='eliminarFase-".$i."' method='POST'>";
 			echo "<input type='hidden' value='".$fases[$i]->idFase."' name='idF' id='idF-".$i."'/>";
 			echo "<input type='hidden' value='".$fases[$i]->nombre."' name='nomF' id='nomF-".$i."'/>";
 			echo "<button type='submit' class='btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-delete'></i></button>";
@@ -133,8 +135,8 @@ echo "</table>";
 <div id="modelFase" class="modal">
 	<div class="modal-content">
 		<div class="row">
-			<div class="col s3">
-				<h4 id="nomFase">Prueba</h4>
+			<div class="col s12">
+				<h5 id="nomFase"></h5>
 			</div>			
 		</div>
 		<form action="fasesMetodos.php" method="POST">
@@ -145,7 +147,7 @@ echo "</table>";
 					<label for="icon_prefix">Nombre de la fase</label>
 			    </div>
 			    <div class="input-field col s6">
-				   	<input type="text" name="orden2" id="orden2"  required/><br>
+				   	<input type="number" name="orden2" id="orden2" min='1' required/><br>
 					<label for="icon_prefix">Orden</label>
 			    </div>
 			</div>
@@ -156,7 +158,7 @@ echo "</table>";
                 	echo "<select name='modeloN2' id='modeloEdit' class='browser-default' required>";
                 		echo "<option value='0'>Seleccione un Modelo de Proceso</option>";
                 		for($i=0;$i<count($misModelos);$i++){
-							echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM}</option>";
+							echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM} V {$misModelos[$i]->version}</option>";
 						}
                 	echo "</select>";
             		?>
@@ -170,24 +172,25 @@ echo "</table>";
 	      	</div>
 			<div class="row">
 				<div class="input-field col s7 offset-s4">
-				    <input type="submit" name="Editar" class="btn wave-effect" id="editar" value="Editar" />
+				    <!--input type="submit" name="Editar" class="btn wave-effect" id="editar" value="Editar" /-->
 			    </div>
 			</div>
+			<div class="modal-footer">
+				<a class="modal-action modal-close wavs-effects wavs-green btn-flat" style="color:red;">Cerrar</a>
+				<input type="submit" name="Editar" class="wavs-effects wavs-green btn-flat" value="Actualizar informacion" style="color:blue;" />
+			</div>
 		</form>
-	</div>
-	<div class="modal-footer">
-		<a class="modal-action modal-close wavs-effects wavs-green btn-flat">Cerrar</a>
 	</div>
 </div>
 <!-- FIN  Modal que se muestra para editar -->
 
 
-<!-- INICIO Modal que se muestra para editar -->
+<!-- INICIO Modal que se muestra para eliminar -->
 <div id="confirmDeleteFase" class="modal bottom-sheet">
 	<form action="fasesMetodos.php" method="POST">
 	<div class="modal-content">
 		<div class="row">
-			<div class="col s3">
+			<div class="col s12">
 				<h4 id="nombreFase"></h4>
 			</div>			
 		</div>
@@ -197,12 +200,12 @@ echo "</table>";
 			<input type="hidden" id="nombreFaseForm" name="nombreFaseForm" />
 	</div>
 	<div class="modal-footer">
-		<a class="modal-action modal-close wavs-effects wavs-green btn-flat">Cancelar</a>
-		<input type="submit" name="eliminar" class="wavs-effects wavs-green btn-flat" value="Si deseo eliminar la fase" />
+		<a class="modal-action modal-close wavs-effects wavs-green btn-flat" style="color:blue;">Cancelar</a>
+		<input type="submit" name="eliminar" class="wavs-effects wavs-green btn-flat" style="color:red;" value="Si deseo eliminar la fase" />
 	</div>
 	</form>
 </div>
-<!-- FIN  Modal que se muestra para editar -->
+<!-- FIN  Modal que se muestra para eliminar -->
 
 
 <div class="row"></div>

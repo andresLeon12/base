@@ -1,9 +1,7 @@
 $(document).on("click","#tareas",function(){
 	$('#content').load('tareas.php');//cargando la vista de fase.php en el div con el id de content
 	$("#tareasLi").addClass("active");
-	$("#fasesLi").removeClass("active");
-	$("#actividadesLi").removeClass("active");
-	$("#modelsLi").removeClass("active");
+	$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi").removeClass("active");
 	pag_act = 'tareas';
 });
 $(document).on("change","#selectRecurso", function(){
@@ -27,10 +25,7 @@ $(document).on("click","#guias",function(){
 	//alert("guias");
 	$('#content').load('guias.php');//cargando la vista de fase.php en el div con el id de content
 	$("#guiasLi").addClass("active");
-	$("#actividadesLi").removeClass("active");
-	$("#modelsLi").removeClass("active");
-	$("#fasesLi").removeClass("active");
-	$("#activosLi").removeClass("active");
+	$("#modelsLi,#activosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi").removeClass("active");
 	pag_act = 'guias';
 });
 // Confirmación de eliminación de actividad
@@ -58,10 +53,7 @@ $(document).on("click","#activos",function(){
 	//alert("activos");
 	$('#content').load('activos.php');//cargando la vista de fase.php en el div con el id de content
 	$("#activosLi").addClass("active");
-	$("#actividadesLi").removeClass("active");
-	$("#guiasLi").removeClass("active");
-	$("#modelsLi").removeClass("active");
-	$("#fasesLi").removeClass("active");
+	$("#guiasLi,#recursosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi").removeClass("active");
 	pag_act = 'activos';
 });
 $(document).on("submit", ".eliminarActivo", function(){

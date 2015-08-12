@@ -12,7 +12,9 @@
 	<script src="../../js/jquery-1.11.3.min.js"></script>
 	<script src="../../js/materialize.min.js"></script>
 	<script src="../../js/script.js"></script>
-	<script src="../../js/script2.js"></script>
+	<script src="../../js/second_script.js"></script>
+	<script src="../../js/MiScript.js"></script>
+	<script src="../../js/decimales.js"></script>
 	<script type="text/javascript" language="javascript" src="../../js/jquery.dataTables.js"></script>
 
 	<!-- js para las tablas -->

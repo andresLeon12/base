@@ -15,7 +15,7 @@
 		}
 
 		$conex = new Conexion;
-		$query = "SELECT * FROM tarea WHERE nombre='$nombre'";
+		$query = "SELECT * FROM tarea WHERE nombre='$nombre' and Actividad_idActividad=$idActividad";
 		$consulta = json_decode($conex->get($query));
 		if(count($consulta) > 0){
 			$_SESSION['msj'] = "Esta tarea ya existe";
@@ -45,7 +45,13 @@
 		}
 
 		$conex = new Conexion;
-		
+		$query = "SELECT * FROM tarea WHERE nombre='$nombre' and Actividad_idActividad=$idActividad";
+		$consulta = json_decode($conex->get($query));
+		if(count($consulta) > 0){
+			$_SESSION['msj'] = "Esta tarea ya existe";
+			header("location: inicio_admin.php");
+			return;
+		}
 		$query  = "update tarea set nombre='$nombre',descripcion='$descripcion',Actividad_idActividad=$idActividad where idTarea=$idTarea";
 
 		if ($conex->insert($query)) {

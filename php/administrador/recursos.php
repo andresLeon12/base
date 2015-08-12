@@ -14,7 +14,7 @@
 	include_once("../Conexion.class.php");
 	$conex = new Conexion;
 
-	$misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM FROM modelo_p"));
+	$misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM,version FROM modelo_p"));
  ?>
 <div class="row"></div>
 <div class="container">	
@@ -54,7 +54,7 @@
 				<select class="browser-default" id="models" name='idModel' required><option>Selecciona un modelo</option>
 				<?php
                 	for($i=0;$i<count($misModelos);$i++){
-						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM}</option>";
+						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM} V {$misModelos[$i]->version}</option>";
 					} ?>
 				</select>
 		    </div>	
@@ -183,6 +183,7 @@
 				$query = "SELECT nombreM FROM modelo_P WHERE idModelo_P=".$fase->Modelo_P_idModelo_P;
 				$model = json_decode($conex->getById($query));
 				echo "<td>".$model->nombreM."</td>";
+				echo "<td><a href='#!' id='".$recursosh[$i]->idRecursoHumano."' class='miRecursoH btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-settings'>Editar</i></a></td>";
 				echo "<td>
 				<form class='eliminarRecurso' id='eliminarRecurso-".($i+$j)."' method='POST'>
 					<input type='hidden' id='idRecurso-".($i+$j)."' value='".$recursosh[$i]->idRecursoHumano."'/>
@@ -190,7 +191,7 @@
 					<input type='hidden'  id='tipoRecurso-".($i+$j)."' value='humano'/>
 					<button type='submit' name='eliminar' class='btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-delete'></i></button>
 				</form></td>";
-				echo "<td><a href='#!' id='".$recursosh[$i]->idRecursoHumano."' class='miRecursoH btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-settings'>Editar</i></a></td>";
+				
 			echo "</tr>";
 		//echo "</form>";
 	}
@@ -235,7 +236,7 @@
 				<select class="browser-default" id="modelsEdit" name='idModelEdit' required><option>Selecciona un modelo</option>
 				<?php
                 	for($i=0;$i<count($misModelos);$i++){
-						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM}</option>";
+						echo "<option value='{$misModelos[$i]->idModelo_P}'>{$misModelos[$i]->nombreM} V {$misModelos[$i]->version}</option>";
 					} ?>
 				</select>
 		    </div>	
