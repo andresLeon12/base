@@ -121,7 +121,7 @@
 		$descripcion = $_POST["descripcion"];
 		$tipo = $_POST["tipo"];
 		$fase = $_POST["idFase"];
-		$medida = $_POST['idMedida'];
+		$idMedida = $_POST['idMedida'];
 
 		//Verificar que la actividad no exista
 		$duplicarRegistro =  json_decode($conex->get("SELECT * FROM actividad where nombre='$nombre' and Fase_idFase=$fase"));
@@ -149,14 +149,14 @@
 
 		if ($idDependencia == 0) {//la actividad no depende de otra, es independiente
 			
-			if ($conex->insert($query)) {
+			if ($conex->insertAct($query,null,$idMedida)) {
 				$_SESSION["msj"] = "Actividad agregada Satisfactoriamente";
 			}else{
 				$_SESSION["msj"] = "Actividad no agregada";
 			}			
 		}else{
 
-			$booleano = $conex->insertAct($query,$idDependencia);
+			$booleano = $conex->insertAct($query,$idDependencia,$idMedida);
 
 			if($booleano){
 				$_SESSION["msj"] = "Actividad agregada Satisfactoriamente";
@@ -164,7 +164,6 @@
 				$_SESSION["msj"] = "Actividad no agregada";
 			}
 		}
-		
 		header("location: inicio_admin.php");
 
 	}elseif (isset($_GET['type'])) {

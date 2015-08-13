@@ -138,26 +138,36 @@
 			$query = "INSERT INTO recursoh VALUES(null,'$nombre','$idTipo')";
 		}
 		//return;
-		if ($conex->insert($query)) {
+		//if ($conex->insert($query)) {
 			if($_POST['tipo_recurso'] == "fisico"){
-				$query = "SELECT idRecursoFisico FROM recursof";
+				if ($conex->insertTabRel($query,"actividad_rf","Actividad_idActividad","RecursoF_idRecursoFisico",$idActividad)) {
+					$_SESSION["msj"] = "Activo Agregado Satisfactoriamente";
+				}else{
+					$_SESSION["msj"] = "Activo no Agregado ";
+				}
+				/*$query = "SELECT idRecursoFisico FROM recursof";
 				$consulta = json_decode($conex->get($query));
 				$id = $consulta[count($consulta)-1]->idRecursoFisico;
-				$query = "INSERT INTO actividad_rf VALUES(null,$id,$idActividad)";
+				$query = "INSERT INTO actividad_rf VALUES(null,$id,$idActividad)";*/
 			}else{
-				$query = "SELECT idRecursoHumano FROM recursoh";
+				if ($conex->insertTabRel($query,"actividad_rh","Actividad_idActividad","RecursoH_idRecursoHumano",$idActividad)) {
+					$_SESSION["msj"] = "Activo Agregado Satisfactoriamente";
+				}else{
+					$_SESSION["msj"] = "Activo no Agregado ";
+				}
+				/*$query = "SELECT idRecursoHumano FROM recursoh";
 				$consulta = json_decode($conex->get($query));
 				$id = $consulta[count($consulta)-1]->idRecursoHumano;
-				$query = "INSERT INTO actividad_rh VALUES(null,$id,$idActividad)";
+				$query = "INSERT INTO actividad_rh VALUES(null,$id,$idActividad)";*/
 			}
-			if ($conex->insert($query)) {
+			/*if ($conex->insert($query)) {
 					$_SESSION["msj"] = "Recurso Agregado Satisfactoriamente";
 				}else{
 					$_SESSION["msj"] = "Recurso no Agregado ";
-				}
-		}else{
+				}*/
+		/*}else{
 			$_SESSION["msj"] = "Recurso no Agregado ";
-		}
+		}*/
 		//return;
 		header("location: inicio_admin.php");
 	}elseif (isset($_GET['type'])) {

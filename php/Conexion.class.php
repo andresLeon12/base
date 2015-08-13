@@ -66,38 +66,56 @@
 
  		//return "Select * FROM $tabla where id=$id";//json_encode($array_res);	
  	}
-
- 	function insertAct($consulta,$dependencia){
- 		
- 		//inicio autocommit
- 		//mysqli_autocommit($this->conex, FALSE);
- 		//$this->conex->autocommit(FALSE);
-		// Insertar algunos valores
-		mysqli_query($this->conex, $consulta);
-		//$last_id = 35;
+ 	/**
+ 	 * query : Consulta a ejecutar
+ 	 * tabla : Tabla a afectar
+ 	 * campo_Tabla1 : Campo de llave foranea
+ 	 * campo_Tabla2 : Campo de llave foranea
+ 	 * idCampo : id del campo
+ 	 */
+ 	function insertTabRel($query,$tabla,$campo_Tabla1,$campo_Tabla2,$idCampo){
+		// Iniciamos una nueva transaccion
+ 		$this->conex->autocommit(false);
+ 		if(!$this->insert($query)){
+ 			$this->conex->rollback(); // Deshacemos la consulta en caso de error
+ 			return false;
+ 		}
+		//mysqli_query($this->conex, $query);
+		// Obtenemos el ultimo id insertado
 		$last_id = $this->conex->insert_id;
 
-		//$this->conex->autocommit(FALSE);
-
-		/*$booleano = $this->comprobarDatos($dependencia,$last_id);
-		if (!$booleano) {//Es false
-			//mysqli_rollback($this->conex);
-			return false;
-		}*/
-		$consultaII = "insert into dependencia(depende_de,Actividad_idActividad) values ($dependencia,$last_id)";
-		mysqli_query($this->conex, $consultaII);
-
-		// Consignar la transación
-		//if (!mysqli_commit($this->conex)) {
-		/*if (!$this->conex->commit($this->conex)) {
-		    //print("Falló la consignación de la transacción\n");
-		    //mysqli_rollback($this->conex);
-		    return false;
-		    //exit();
+		$consultaII = "insert into $tabla($campo_Tabla1,$campo_Tabla2) values ($idCampo,$last_id)";
+		if(!$this->insert($consultaII)){
+ 			$this->conex->rollback(); // Deshacemos la consulta en caso de error
+ 			return false;
 		}
-		$this->conex->autocommit(true);*/
+		//mysqli_query($this->conex, $consultaII);
+		$this->conex->commit();
 		return true;
- 		//fin autocommit
+ 	}
+ 	function insertAct($query,$dependencia,$medida){
+ 		$this->conex->autocommit(false);
+ 		if(!$this->insert($query))
+ 			$this->conex->rollback(); // Deshacemos la consulta en caso de error
+		// Obtenemos el ultimo id insertado
+		$last_id = $this->conex->insert_id;
+		echo $last_id."-".$dependencia;
+		// Insertamos relaciond e dependencia
+		if($dependencia!=null){
+			$consultaII = "insert into dependencia(depende_de,Actividad_idActividad) values ($dependencia,$last_id)";
+			if(!$this->insert($consultaII)){
+	 			$this->conex->rollback(); // Deshacemos la consulta en caso de error
+	 			return false;
+			}
+	 	}
+ 		// Insertamos relaciond de medida
+		$consultaII = "insert into ActMed(Actividad_idActividad,Medida_idMedida) values ($last_id,$medida)";
+		if(!$this->insert($consultaII)){
+ 			$this->conex->rollback(); // Deshacemos la consulta en caso de error
+ 			return false;
+		}
+		$this->conex->commit();
+		return true;
  	}
 
  	/*function comprobarDatos($depende_de,$idActividad){

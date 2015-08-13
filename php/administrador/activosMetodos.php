@@ -95,23 +95,13 @@
 		    chmod($serv . $name, 0644);
 		    $serv = $consulta->nombreM."/".$name;
 		    $query = "INSERT INTO activo VALUES(null,'$serv','$descripcion')";
-		    if ($conex->insert($query)) {
-				$query = "SELECT idActivo FROM activo";
-				$consulta = json_decode($conex->get($query));
-				$id = $consulta[count($consulta)-1]->idActivo;
-				$query = "INSERT INTO A_Activo VALUES(null,$idActividad,$id)";
-				//echo $query;
-				if ($conex->insert($query)) {
-					$_SESSION["msj"] = "Activo Agregado Satisfactoriamente";
-				}else{
-					$_SESSION["msj"] = "Activo no Agregado ";
-				}
+		    if ($conex->insertTabRel($query,"A_Activo","Actividad_idActividad","Activo_idActivo",$idActividad)) {
+				$_SESSION["msj"] = "Activo Agregado Satisfactoriamente";
 			}else{
-				$_SESSION["msj"] = "Activo no Agregado";
+				$_SESSION["msj"] = "Activo no Agregado ";
 			}
 			//echo $_SESSION['msj'];
 		}
-		$_FILES['guia'] = null;
 		header("location: inicio_admin.php");
 	}elseif (isset($_GET['type'])) {
 		# obtendremos en forma de combo los modelos dados de alta
