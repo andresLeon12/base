@@ -38,6 +38,10 @@
  			if($this->conex->query($consulta))
  				return mysqli_affected_rows($this->conex);
  		}
+ 		if(strpos($consulta, "update")!== false || strpos($consulta, "UPDATE")!== false){
+ 			if($this->conex->query($consulta))
+ 				return mysqli_affected_rows($this->conex);
+ 		}
  		if(!$this->conex->query($consulta))
  			return false;
  		return true;

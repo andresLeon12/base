@@ -4774,15 +4774,24 @@ span.badge {
   margin: 0 auto;
   max-width: 1280px;
   width: 90%; }
-
+#tablero-control{
+  padding: 0 1.5rem;
+  margin: 0 auto;
+  max-width: 1280px;
+  width:96%; 
+}
 @media only screen and (min-width : 601px) {
   .container {
     width: 85%; }
+    #tablero-control {
+    width: 91%; }
  }
 
 @media only screen and (min-width : 993px) {
   .container {
     width: 70%; }
+    #tablero-control {
+    width: 76%; }
  }
 
 .container .row {
@@ -5059,11 +5068,16 @@ nav {
     position: relative;
     height: 100%; }
   nav a {
-    color: #fff; }
+    color: #fff; }/*
   @media only screen and (min-width : 993px) {
     nav a.button-collapse {
       display: none; }
+ }*/
+ @media only screen and (max-width : 993px) {
+    nav a.button-collapse {
+      display: block; }
  }
+
   nav a.button-collapse {
     float: left;
     position: relative;
@@ -5152,13 +5166,13 @@ nav {
   nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
     height: 64px;
     line-height: 64px; }
-
   nav .nav-wrapper i {
     font-size: 2rem; }
 
   .navbar-fixed {
     height: 64px; }
  }
+
 
 @font-face {
   font-family: "Roboto";

@@ -4,7 +4,7 @@ m = setInterval(titulo, 5000);
 $(document).ready(function(){
 	
 	$('ul.tabs').tabs();
-	
+	$(".button-collapse").sideNav();
 	$("#login").submit(function(){
 		user = $("#user").val()
 		pass = $("#pass").val()

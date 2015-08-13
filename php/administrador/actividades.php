@@ -141,6 +141,7 @@
                 echo "<th style='text-align:center;'>Nombre</th>";
                 echo "<th style='text-align:center;'>Descripción</th>";
                 echo "<th style='text-align:center;'>Tipo</th>";
+                echo "<th style='text-align:center;'>Medida</th>";
                 echo "<th style='text-align:center;'>Fase</th>";
                 echo "<th style='text-align:center;'>Modelo</th>";
                 echo "<th style='text-align:center;'>Depende de</th>";
@@ -154,6 +155,16 @@
 				echo "<td>".$actividades[$i]->nombre."</td>";
 				echo "<td>".$actividades[$i]->descripcion."</td>";
 				echo "<td>".$actividades[$i]->tipo."</td>";
+				$query = "SELECT Medida_idMedida FROM actmed WHERE Actividad_idActividad=".$actividades[$i]->idActividad;
+				$consulta = json_decode($conex->getById($query));
+				if($consulta!=null){
+					$query = "SELECT nombre FROM medida WHERE idMedida=".$consulta->Medida_idMedida;
+					$medida = json_decode($conex->getById($query));
+					
+					echo "<td>".$medida->nombre."</td>";
+				}
+				else
+					echo "<td>No se ha añadido una medida</td>";
 				$query = "SELECT Modelo_P_idModelo_P,nombre FROM fase WHERE idFase=".$actividades[$i]->Fase_idFase;
 				$fase = json_decode($conex->getById($query));
 				echo "<td>".$fase->nombre."</td>";
