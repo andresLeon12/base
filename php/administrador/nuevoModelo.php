@@ -71,85 +71,15 @@
 
 		echo $conex->get($query);
 	}elseif(isset($_GET['eliminar'])) {
-		//echo $_GET['eliminar'];
 		$idd = $_GET['idEliminar'];
-
-		//$conex = new Conexion;
-		$query  = "SELECT idModelo_P, nombreM FROM modelo_p WHERE idModelo_P=$idd";
-		echo $query;
-		$consulta = json_decode($conex->getById($query));
-		$query  = "SELECT idFase FROM fase WHERE Modelo_P_idModelo_P=$idd";
-		echo $query;
-		$consulta = json_decode($conex->getById($query));
-		if(count($consulta) > 0){
-			$query  = "SELECT idActividad FROM actividad WHERE Fase_idFase=".$consulta->idFase;
-			echo $query;
-			$consulta = json_decode($conex->getById($query));
-			if(count($consulta) > 0){
-				$idActividad = $consulta->idActividad;
-				$query  = "SELECT Guia_idGuia FROM a_guia WHERE Actividad_idActividad=".$idActividad;
-				echo $query;
-				$consulta = json_decode($conex->getById($query));
-				if(count($consulta) > 0){
-					$query  = "DELETE FROM guia WHERE idGuia=".$consulta->Guia_idGuia;
-					echo $query;
-					$conex->insert($query);
-				}
-				$query  = "SELECT Activo_idActivo FROM a_activo WHERE Actividad_idActividad=".$idActividad;
-				echo $query;
-				$consulta = json_decode($conex->getById($query));
-				if(count($consulta) > 0){
-					$query  = "DELETE FROM activo WHERE idActivo=".$consulta->Activo_idActivo;
-					echo $query;
-					$conex->insert($query);
-				}
-				$query  = "SELECT RecursoF_idRecursoFisico FROM actividad_rf WHERE Actividad_idActividad=".$idActividad;
-				echo $query;
-				$consulta = json_decode($conex->getById($query));
-				if(count($consulta) > 0){
-					$query  = "DELETE FROM recursoF WHERE idRecursoFisico=".$consulta->RecursoF_idRecursoFisico;
-					echo $query;
-					$conex->insert($query);
-				}
-				$query  = "SELECT RecursoH_idRecursoHumano FROM actividad_rh WHERE Actividad_idActividad=".$idActividad;
-				echo $query;
-				$consulta = json_decode($conex->getById($query));
-				if(count($consulta) > 0){
-					$query  = "DELETE FROM recursoH WHERE idRecursoHumano=".$consulta->RecursoH_idRecursoHumano;
-					echo $query;
-					$conex->insert($query);
-				}
-				$query  = "SELECT Entrada_idEntrada FROM act_ent WHERE Actividad_idActividad=".$idActividad;
-				echo $query;
-				$consulta = json_decode($conex->getById($query));
-				if(count($consulta) > 0){
-					$query  = "DELETE FROM entrada WHERE idEntrada=".$consulta->Entrada_idEntrada;
-					echo $query;
-					$conex->insert($query);
-				}
-				$query  = "SELECT Salida_idSalida FROM act_sal WHERE Actividad_idActividad=".$idActividad;
-				echo $query;
-				$consulta = json_decode($conex->getById($query));
-				if(count($consulta) > 0){
-					$query  = "DELETE FROM salida WHERE idSalida=".$consulta->Salida_idSalida;
-					echo $query;
-					$conex->insert($query);
-				}
-			}
-		}
-		return;
-		$query  = "DELETE FROM modelo_p WHERE idModelo_P='$idd'";
 		$_SESSION['pag_act'] = 'modelos'; /// crear sesion de modelos
-		if ($conex->insert($query)) {
+		// Eliminammos en cascada
+		if ($conex->deleteOnCascadeModel($idd)) {
 			$_SESSION["msj"] = "Modelo Eliminado";
 		}else{
 			$_SESSION["msj"] = "No se elimino el modelo";
 		}
-		$_SESSION["modelos"] = $conex->get("SELECT * FROM modelo_p");
 		header("location: inicio_admin.php");
-
-
-	
 	}
 
  ?>

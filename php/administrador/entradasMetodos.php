@@ -56,12 +56,10 @@
 		}*/
 		$ban = 0;
 		$query = "SELECT * FROM entrada WHERE nombre='$nombre'";
-		echo $query;
 			$consulta = json_decode($conex->get($query));
 			if(count($consulta) > 0){
 				for($i=0;$i<count($consulta);$i++){
 					$query = "SELECT * FROM act_ent WHERE Entrada_idEntrada=".$consulta[$i]->idEntrada." and Actividad_idActividad=$actividad";
-					echo "<br>".$query;
 					$consulta2 = json_decode($conex->get($query));
 					if(count($consulta2) > 0){
 						$ban++;

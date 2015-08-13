@@ -96,11 +96,14 @@
 		    chmod($serv . $name, 0644);
 		    $serv = $consulta->nombreM."/".$name;
 		    $query = "INSERT INTO guia VALUES(null,'$serv','$tipo')";
+		    echo $query;
 		    if ($conex->insert($query)) {
 				$query = "SELECT idGuia FROM guia";
+				echo $query;
 				$consulta = json_decode($conex->get($query));
 				$id = $consulta[count($consulta)-1]->idGuia;
 				$query = "INSERT INTO A_Guia VALUES(null,$id,$idActividad)";
+				echo $query;
 				if ($conex->insert($query)) {
 					$_SESSION["msj"] = "Guia Agregada Satisfactoriamente";
 				}else{
@@ -109,8 +112,8 @@
 			}else{
 				$_SESSION["msj"] = "Guia no Agregada ";
 			}
-			//echo $_SESSION['msj'];
 		}
+		echo $_SESSION['msj'];
 		header("location: inicio_admin.php");
 	}elseif (isset($_GET['type'])) {
 		# obtendremos en forma de combo los modelos dados de alta

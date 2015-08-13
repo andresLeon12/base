@@ -118,7 +118,6 @@
                 echo "<th style='text-align:center;'>Nombre</th>";
                 echo "<th style='text-align:center;'>Descripción</th>";
                 echo "<th style='text-align:center;'>Tipo</th>";
-                echo "<th style='text-align:center;'>Carga de trabajo</th>";
                 echo "<th style='text-align:center;'>Pertenece a la actividad</th>";
                 echo "<th style='text-align:center;'>Pertenece a la fase</th>";
                 echo "<th style='text-align:center;'>Pertenece al modelo</th>";
@@ -132,7 +131,6 @@
 				echo "<td>".$recursos[$i]->nombre."</td>";
 				echo "<td>".$recursos[$i]->descripcion."</td>";
 				echo "<td>Físico - ".$recursos[$i]->tipo."</td>";
-				echo "<td>".$recursos[$i]->carga_trabajo."</td>";
 				$query = "SELECT Actividad_idActividad FROM actividad_rf WHERE recursof_idrecursofisico=".$recursos[$i]->idRecursoFisico;
 				$actividad_rf = json_decode($conex->getById($query));
 				$query = "SELECT nombre,Fase_idFase FROM actividad WHERE idActividad=".$actividad_rf->Actividad_idActividad;
@@ -161,7 +159,6 @@
 				echo "<td>".$recursosh[$i]->nombre."</td>";
 				echo "<td>***</td>";
 				echo "<td>Humano - ".$recursosh[$i]->tipo."</td>";
-				echo "<td>".$recursosh[$i]->carga_trabajo."</td>";
 				$query = "SELECT Actividad_idActividad FROM actividad_rh WHERE recursoh_idrecursohumano=".$recursosh[$i]->idRecursoHumano;
 				$actividad_rh = json_decode($conex->getById($query));
 				$query = "SELECT nombre,Fase_idFase FROM actividad WHERE idActividad=".$actividad_rh->Actividad_idActividad;

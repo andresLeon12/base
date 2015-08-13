@@ -73,6 +73,26 @@ $(document).on('submit','.eliminarTarea',function(){
 	$("#confirmDeleteTarea").openModal();
 	return false;//para no enviar el formulario
 });
+//++++++++++++++++++++++++++++++++++++++++++++++++++++
+$(document).on('submit','.eliminarMedida',function(){
+	id = $(this).attr("id").split("-");
+	$('#eliminarMedida-'+id[1]).find(':input').each(function(){
+		element = this;
+		//alert(element.id)
+		switch(element.id){
+			case 'idM-'+id[1]:
+				$('#idMedidaForm').val(element.value);
+				//alert("value "+element.value)
+			break;
+			case 'nomM-'+id[1]:
+				$("#nombreMedidaForm").val(element.value);
+				$("#nameMedida").html("&iquest;Realmente desea eliminar <b>"+element.value+"</b>?");
+			break;
+		}
+	});
+	$("#confirmDeleteMedida").openModal();
+	return false;//para no enviar el formulario
+});
 // ***************************************************
 $(document).on("change","#selectRecurso", function(){
 	if($(this).prop("checked")){

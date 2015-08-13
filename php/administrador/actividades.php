@@ -14,6 +14,7 @@
 	$misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM,version FROM modelo_p"));//obteniendo los modelos que se tienen dados de alta en la bd
 
 	$actividades =  json_decode($conex->get("SELECT * FROM actividad"));
+	$medidas =  json_decode($conex->get("SELECT * FROM medida"));
 	
 	$nomDependencias = array();
 
@@ -75,27 +76,32 @@
 				<select class="fasesOptions browser-default" name="idFase" id="idfases" required><option>Selecciona una fase</option></select>
 		    </div>
 		</div>
+		<div class="row">
+	    	<div class="col s6">
 		<!-- Combo de dependencias. NOTA: La primera vez que se agrega una actividad esta no tiene ninguna dependencia, pero la segunda se le va a habilitar el combo de las dependencias -->
 	    <?php  
 	    	if (count($actividades) > 0) {
 	    ?>
-	    		<div class="row">
-	    			<div class="col s10">
-						<label>Depende de:</label>
-						<select class="browser-default" id="dependencia" name="dependencia">
-							<option value="0">Selecciona una dependencia</option>
-							<?php
-                				/*for( $i = 0 ; $i < count($actividades) ; $i++ ){
-									echo "<option value='{$actividades[$i]->idActividad}'>{$actividades[$i]->nombre}</option>";
-								} */
-							?>
-						</select>
-		    		</div>	
-	    		</div>		
+				<label>Depende de:</label>
+				<select class="browser-default" id="dependencia" name="dependencia">
+					<option value="0">Selecciona una dependencia</option>
+				</select>		
 	    <?php		
 	    	}
 	    ?>
+	    	</div>		
 	    <!-- F I N .. combo de dependencias -->
+	    <div class="col s6">
+	    	<label>Medida</label>
+				<select class="browser-default" id="idMedida" name="idMedida">
+					<option value="0">Selecciona una medida</option>
+					<?php
+                	for($i=0;$i<count($medidas);$i++){
+						echo "<option value='{$medidas[$i]->idMedida}'>{$medidas[$i]->nombre}</option>";
+					} ?>
+				</select>
+			</div>
+	    </div>
 
 		<div class="row">
 	       	<div class="input-field col s10">

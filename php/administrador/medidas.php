@@ -90,9 +90,9 @@ for($i=0;$i<count($medidas);$i++){
 		echo "<td>".$medidas[$i]->descripcion."</td>";
 		echo "<td>".$medidas[$i]->unidad_medida."</td>";
 		echo "<td style='text-align:center;'><a href='#!' id='".$medidas[$i]->idMedida."' class='miMedida btn-floating btn-large waves-effect waves-light blue'><i class='mdi-action-settings'></i>Editar</a></td>";
-		echo "<td style='text-align:center;'><form class='eliminarTarea' id='eliminarTarea-".$i."' method='POST'>";
-			echo "<input type='hidden' value='".$medidas[$i]->idMedida."' name='idT' id='idT-".$i."'/>";
-			echo "<input type='hidden' value='".$medidas[$i]->nombre."' name='nomT' id='nomT-".$i."'/>";
+		echo "<td style='text-align:center;'><form class='eliminarMedida' id='eliminarMedida-".$i."' method='POST'>";
+			echo "<input type='hidden' value='".$medidas[$i]->idMedida."' name='idT' id='idM-".$i."'/>";
+			echo "<input type='hidden' value='".$medidas[$i]->nombre."' name='nomT' id='nomM-".$i."'/>";
 			echo "<button type='submit' class='btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-delete'></i></button>";
 		echo "</form></td>";
 	echo "</tr>";
@@ -139,15 +139,15 @@ echo "</table>";
 <!-- FIN  Modal que se muestra para editar -->
 
 <!-- INICIO Modal que se muestra para eliminar -->
-<div id="confirmDeleteTarea" class="modal bottom-sheet">
+<div id="confirmDeleteMedida" class="modal bottom-sheet">
 	<form action="medidasMetodos.php" method="POST">
 	<div class="modal-content">
 		<div class="row">
 			<div class="col s12">
-				<h4 id="nameTarea"></h4>
+				<h4 id="nameMedida"></h4>
 			</div>			
 		</div>
-			<p>Toma en cuenta que si eliminas esta Tarea puedes afectar otros <b>datos</b>.<br/>
+			<p>Toma en cuenta que si eliminas esta Medida puedes afectar otros <b>datos</b>.<br/>
 			<input type="hidden" id="idMedidaForm" name="idMedidaForm" />
 			<input type="hidden" id="nombreMedidaForm" name="nombreMedidaForm" />
 	</div>

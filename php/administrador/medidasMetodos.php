@@ -9,7 +9,7 @@
 		$unidad_medida = $_POST["unidad_medida"];
 
 		$conex = new Conexion;
-		$query = "SELECT * FROM medida WHERE nombre='$nombre' and descripcion='$descripcion'";
+		$query = "SELECT * FROM medida WHERE nombre='$nombre'";
 		$consulta = json_decode($conex->get($query));
 		if(count($consulta) > 0){
 			$_SESSION['msj'] = "Esta medida ya existe";
@@ -31,8 +31,8 @@
 		$unidad_medida = $_POST["unidad_medida"];
 		$idMedida = $_POST['idMedida'];
 		$conex = new Conexion;
-		$query = "SELECT * FROM Medida WHERE nombre='$nombre' and idMedida=$idMedida";
-		$consulta = json_decode($conex->get($query));
+		/*$query = "SELECT * FROM Medida WHERE nombre='$nombre' and idMedida=$idMedida";
+		$consulta = json_decode($conex->get($query));*/
 		$query = "SELECT * FROM Medida WHERE nombre='$nombre'";
 		$consulta = json_decode($conex->get($query));
 		if(count($consulta) > 0){
@@ -61,17 +61,17 @@
 		}
 		header("location: inicio_admin.php");
 	}elseif (isset($_POST['eliminar'])) {
-		$idTarea = $_POST['idTareaForm'];
-		$nombreTarea = $_POST['nombreTareaForm'];
+		$idMedida = $_POST['idMedidaForm'];
+		$nombreMedida = $_POST['nombreMedidaForm'];
 
 		$conex = new Conexion;
 
-		$query  = "DELETE FROM tarea WHERE idTarea = $idTarea";
+		$query  = "DELETE FROM Medida WHERE idMedida = $idMedida";
 
 		if ($conex->insert($query)) {
-			$_SESSION["msj"] = "Se ha borrado ".$nombreTarea;
+			$_SESSION["msj"] = "Se ha borrado ".$nombreMedida;
 		}else{
-			$_SESSION["msj"] = "Hubo un error al borrar ".$nombreTarea;
+			$_SESSION["msj"] = "Hubo un error al borrar ".$nombreMedida;
 		}
 		header("location: inicio_admin.php");
 	}

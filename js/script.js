@@ -794,15 +794,11 @@ $(document).on("click","#medidas",function(){
 /*--------------------------------------EDIEL---------------------*/
 $(document).on("change","#idfases",function(){
 	id = $(this).val()
-	
-
-	
 		$.ajax({
 			method: "GET",
 			data: { getByModel : id},
 			url: "actividadesMetodos.php",
 			}).done(function( resultado ) {
-			
 			 	res = JSON.parse(resultado)
 			 	//alert(res[0].);
 			 	$("#idActividades").empty();
