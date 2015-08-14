@@ -29,18 +29,25 @@ if(empty($_SESSION['usuario']))
   <h4 class="">Bienvenido <i class="mdi-action-account-box"></i><strong class='grey-text'> <?php echo $_SESSION['usuario'];?></strong></h4>
 </div>   
 </div>
+<ul id="menuAct" class="dropdown-content">
+  <li id="tareasLi" class=""><a id="tareas" href='#tareas'>Tareas</a></li>
+  <li class="" id="guiasLi"><a href='#guias' id="guias">Gu&iacute;as</a></li>
+  <li class="" id="activosLi"><a href='#activos' id="activos">Activos</a></li>
+  <li id="actividadesLi" class=""><a id="actividades" href="#actividades">Actividades</a></li>
+</ul>
   <nav class="blue-grey z-depth-3" id="tablero-control">
-      <div class="nav-wrapper" style="overflow-y: auto;" id="tab-scroll" >
+      <div class="nav-wrapper" id="tab-scroll" >
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
         <ul class="center hide-on-med-and-down" >
           <li id="modelsLi" class=""><a id="modelos" href="#modelos">Modelos</a></li>
           <li id="fasesLi"  class=""><a id="fases" href="#fases">Fases</a></li>
-          <li id="actividadesLi" class=""><a id="actividades" href="#actividades">Actividades</a></li>
-          <li id="tareasLi" class=""><a id="tareas" href='#tareas'>Tareas</a></li>
+          <li><a class="dropdown-button" href="#!" data-activates="menuAct">Men&uacute; de actividades<i class="mdi-navigation-arrow-drop-down right"></i></a></li>
+          <!--li id="actividadesLi" class=""><a id="actividades" href="#actividades">Actividades</a></li>
+          <li id="tareasLi" class=""><a id="tareas" href='#tareas'>Tareas</a></li-->
           <li id="entradasLi" class=""><a id="entradas" href='#entradas'>Entradas</a></li><!--  parte actualizada-->
           <li id="salidasLi" class=""><a  id="salidas" href='#salidas'>Salidas</a></li>
-          <li class="" id="guiasLi"><a href='#guias' id="guias">Gu&iacute;as</a></li>
-          <li class="" id="activosLi"><a href='#activos' id="activos">Activos</a></li>
+          <!--<li class="" id="guiasLi"><a href='#guias' id="guias">Gu&iacute;as</a></li>
+          <li class="" id="activosLi"><a href='#activos' id="activos">Activos</a></li>-->
           <li class="" id="recursosLi"><a href='#recursos' id="recursos">Recursos</a></li>
           <li class="" id="medidasLi"><a href='#medidas' id="medidas">Medidas</a></li>
           <li class="" id="medidasLi"><a href='#medidas' id="medidas">Roles</a></li>
