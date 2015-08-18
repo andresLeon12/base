@@ -3,10 +3,10 @@ function checkDecimals(fieldName, fieldValue) {
  
 	decallowed = 2; // how many decimals are allowed?
 
-	if (isNaN(fieldValue) || fieldValue == "") 
+	if (isNaN(fieldValue)) 
+	//if (isNaN(fieldValue) || fieldValue == "") 
 	{
-		errorVersion.innerHTML = "La version no es valida";
-		//alert("El número no es válido. Prueba de nuevo.");
+		errorVersion.innerHTML = "El dato no es valido.Debe de ser con este formato: x.x (solo numeros)";
 		fieldName.select();
 		fieldName.focus();
 		return false;
@@ -20,7 +20,7 @@ function checkDecimals(fieldName, fieldValue) {
 		if (fieldValue.indexOf('.') == -1)
 		{
 			fieldValue += ".";
-			errorVersion.innerHTML = "La version no es valida";
+			errorVersion.innerHTML = "El dato no es valido.Debe de ser con este formato: x.x";
 			//alert("No encontro punto, no valido");
 			return false;
 		}else{
@@ -29,7 +29,7 @@ function checkDecimals(fieldName, fieldValue) {
 	 		//alert("dectext length "+dectext.length)
 			if (dectext.length > decallowed)
 			{
-				errorVersion.innerHTML = "La version no es valida";
+				errorVersion.innerHTML = "El dato no es valido.Debe de ser con este formato: x.x";
 				//alert("Por favor, entra un número con " + decallowed + " números decimales.");
 				fieldName.select();
 				fieldName.focus();
@@ -38,7 +38,7 @@ function checkDecimals(fieldName, fieldValue) {
 			else
 			{
 				if(dectext.length==0){
-					errorVersion.innerHTML = "La version no es valida";
+					errorVersion.innerHTML = "El dato no es valido.Debe de ser con este formato: x.x";
 					//alert("debes de introducir minimo un decimal");
 					return false;
 				}else{
@@ -50,6 +50,21 @@ function checkDecimals(fieldName, fieldValue) {
 	}
 }
 
-function borrarDiv(fieldName){
-	document.getElementById('errorVersion').value = "";
+function borrarDiv(){
+	//alert("apreto");
+	errorVersion.innerHTML = "";
+}
+
+function concatenarIdActividad(){
+	var idFase_Act = $("#idAct").text();
+	var idAct = document.getElementById('id_Act').value;
+	var valorFinal = idFase_Act+idAct;
+	document.getElementById('idActividad').value = valorFinal;
+}
+
+function concatenarIdActividad2(){
+	var idFase_Act = $("#idAct2").text();
+	var idAct = document.getElementById('id_Act2').value;
+	var valorFinal = idFase_Act+idAct;
+	document.getElementById('identificadorEdit').value = valorFinal;
 }

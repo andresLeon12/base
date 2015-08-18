@@ -7,9 +7,9 @@
 		
 		$conex = new Conexion;
 		$id = $_POST['id'];
-		$idActividad = $_POST['idActividad'];
-		$idModel = $_POST['idModel'];
-		$tipo = $_POST['tipo'];
+		//$idActividad = $_POST['idActividad'];
+		//$idModel = $_POST['idModel'];
+		$tipo = $_POST['descripcionGuia'];
 		$linkOld = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$_POST['linkOldFile'];
 		$nombre = explode("/",$_POST['linkOldFile']);
 		$serv = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$nombre[0]."/";
@@ -56,12 +56,11 @@
 			$_SESSION["msj"] = "Guia no Actualizada ";
 		}
 		header("location: inicio_admin.php");
-
 	}elseif(isset($_POST['Agregar'])){
 		$conex = new Conexion;
 		$idActividad = $_POST['idActividad'];
 		$idModel = $_POST['idModel'];
-		$tipo = $_POST['tipo'];
+		$tipo = $_POST['descripcionGuia'];
 		if($idActividad == 'Selecciona una Actividad'){
 			$_SESSION["msj"] = "Por favor selecciona una actividad";
 			header("location: inicio_admin.php");
@@ -69,7 +68,8 @@
 		}
 		$query  = "SELECT idModelo_P, nombreM FROM modelo_p WHERE idModelo_P=$idModel";
 		$consulta = json_decode($conex->getById($query));
-		$serv = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$consulta->nombreM."/";
+		$nname = explode(" ", $consulta->nombre);
+		$serv = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$nname[0]."/";
 		if (!empty($_FILES["guia"])) {
 		    $archivo = $_FILES["guia"];
 		 	if($_FILES["guia"]["type"]!="application/pdf"){
@@ -95,7 +95,7 @@
 		    // set proper permissions on the new file
 		    chmod($serv . $name, 0644);
 		    $serv = $consulta->nombreM."/".$name;
-		    $query = "INSERT INTO guia VALUES(null,'$serv','$tipo')";
+		    $query = "INSERT INTO guia(nombre,tipo) VALUES('$serv','$tipo')";
 		    if ($conex->insertTabRel($query,"A_Guia","Actividad_idActividad","Guia_idGuia",$idActividad)) {
 				$_SESSION["msj"] = "Guia Agregada Satisfactoriamente";
 			}else{
@@ -108,7 +108,6 @@
 		$conex = new Conexion;
 		
 		$query  = "SELECT idModelo_P, nombreM FROM modelo_p";
-
 		echo $conex->get($query);
 	}elseif(isset($_POST['eliminar'])){
 		$id = $_POST["idGuia"];
@@ -124,5 +123,4 @@
 		}
 		header("location: inicio_admin.php");
 	}
-
  ?>

@@ -8,8 +8,8 @@
 		$conex = new Conexion;
 		$id = $_POST['id'];
 		$idActividad = $_POST['idActividad'];
-		$idModel = $_POST['idModel'];
-		$descripcion = $_POST['descripcion'];
+		//$idModel = $_POST['idModel'];
+		$descripcion = $_POST['descripcionActivo'];
 		$linkOld = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$_POST['linkOldFile'];
 		$nombre = explode("/",$_POST['linkOldFile']);
 		$serv = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$nombre[0]."/";
@@ -44,31 +44,26 @@
 			//echo $_SESSION['msj'];
 		}
 		$query = "update activo set nombre='$nombreFinal', descripcion='$descripcion' where idactivo=$id";
-		if ($conex->insert($query)) {
+		if ($conex->insert($query) > 0) {
 			$query = "UPDATE A_Activo SET Actividad_idActividad=$idActividad WHERE Activo_idActivo=$id";
-			if ($conex->insert($query)) {
-				$_SESSION["msj"] = "activo Actualizada Satisfactoriamente";
+			if ($conex->insert($query) > 0) {
+				$_SESSION["msj"] = "Activo Actualizado Satisfactoriamente";
 			}else{
-				$_SESSION["msj"] = "activo no Actualizada ";
+				//$_SESSION["msj"] = "Activo no Actualizado ";
 			}
 		}else{
-			$_SESSION["msj"] = "activo no Actualizada ";
+			//$_SESSION["msj"] = "Activo no Actualizada ";
 		}
 		header("location: inicio_admin.php");
-
 	}elseif(isset($_POST['Agregar'])){
 		$conex = new Conexion;
 		$idActividad = $_POST['idActividad'];
+		$descripcion = $_POST['descripcionActivo'];
 		$idModel = $_POST['idModel'];
-		$descripcion = $_POST['descripcion'];
-		if($idActividad == 'Selecciona una Actividad'){
-			$_SESSION["msj"] = "Por favor selecciona una actividad";
-			header("location: inicio_admin.php");
-			return;
-		}
 		$query  = "SELECT idModelo_P, nombreM FROM modelo_p WHERE idModelo_P=$idModel";
 		$consulta = json_decode($conex->getById($query));
-		$serv = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$consulta->nombreM."/";
+		$nname = explode(" ", $consulta->nombreM);
+		$serv = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$nname[0]."/";
 		if (!empty($_FILES["activo"])) {
 		    $archivo = $_FILES["activo"];
 		 	if($_FILES["activo"]["type"]!="application/pdf"){
@@ -94,7 +89,7 @@
 		    // set proper permissions on the new file
 		    chmod($serv . $name, 0644);
 		    $serv = $consulta->nombreM."/".$name;
-		    $query = "INSERT INTO activo VALUES(null,'$serv','$descripcion')";
+		    $query = "INSERT INTO activo(nombre,descripcion) VALUES('$serv','$descripcion')";
 		    if ($conex->insertTabRel($query,"A_Activo","Actividad_idActividad","Activo_idActivo",$idActividad)) {
 				$_SESSION["msj"] = "Activo Agregado Satisfactoriamente";
 			}else{
@@ -108,7 +103,6 @@
 		$conex = new Conexion;
 		
 		$query  = "SELECT idModelo_P, nombreM FROM modelo_p";
-
 		echo $conex->get($query);
 	}elseif(isset($_POST['eliminar'])){
 		$id = $_POST["idActivo"];
@@ -124,5 +118,4 @@
 		}
 		header("location: inicio_admin.php");
 	}
-
  ?>

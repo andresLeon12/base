@@ -45,7 +45,7 @@
 		}
 
 		$conex = new Conexion;
-		$query = "SELECT * FROM tarea WHERE nombre='$nombre' and descripcion='$descripcion' and Actividad_idActividad=$idActividad";
+		$query = "SELECT * FROM tarea WHERE nombre='$nombre' and Actividad_idActividad=$idActividad";
 		$consulta = json_decode($conex->get($query));
 		if(count($consulta) > 0){
 			$_SESSION['msj'] = "Esta tarea ya existe";

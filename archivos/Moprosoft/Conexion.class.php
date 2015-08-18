@@ -94,6 +94,7 @@
  	function insertTabRelAct($query,$tabla,$campo_Tabla1,$campo_Tabla2,$idCampo,$idMedida){
 		// Iniciamos una nueva transaccion
  		$this->conex->autocommit(false);
+ 		echo "segundo ".$query;
  		if(!$this->insert($query)){
  			$this->conex->rollback(); // Deshacemos la consulta en caso de error
  			return false;
@@ -102,18 +103,19 @@
 		// Obtenemos el ultimo id insertado
 		$last_id = $this->conex->insert_id;
 		$consultaII = "insert into $tabla($campo_Tabla1,$campo_Tabla2) values ($idCampo,'$last_id')";
+		echo $consultaII;
 		if(!$this->insert($consultaII)){
  			$this->conex->rollback(); // Deshacemos la consulta en caso de error
  			return false;
 		}
 		// Insertamos relaciond de medida
 		$consultaII = "insert into ActMed(Actividad_idActividad,Medida_idMedida) values ($last_id,$idMedida)";
+		echo $consultaII;
 		$this->insert($consultaII);
 		//mysqli_query($this->conex, $consultaII);
-		if($this->conex->commit())
-			return $last_id;
-		else
-			return null;
+		$this->conex->commit();
+		echo "commit";
+		return true;
  	}
  	function insertAct($query,$dependencia,$medida){
  		$this->conex->autocommit(false);
@@ -146,40 +148,19 @@
 		$consulta = json_decode($this->getById($query));
 		$nname = explode(" ", $consulta->nombreM);
 		$serv = $_SERVER['DOCUMENT_ROOT'] . '/base/archivos/'.$nname[0]."/";
-		echo $serv;
 		if(!file_exists($serv))
 			mkdir ($serv);
 		if ($tipo == 'guia') {
-		 	if($archivo["type"]!="application/pdf"){
-				$_SESSION["msj"] = "Lo sentimos solo archivos PDF";
-				header("location: inicio_admin.php");
-			}
-		    if ($archivo["error"] !== UPLOAD_ERR_OK) {
-		        $_SESSION['msj'] = "Ha ocuurido un error.";
-		        header("location: inicio_admin.php");
-		    }
-		 
 		    // ensure a safe filename
 		    $name = preg_replace("/[^A-Z0-9._-]/i", "_", $archivo["name"]);
 		 	
 		    // preserve file from temporary directory
 		    $success = move_uploaded_file($archivo["tmp_name"],
 		        $serv . $name);
-		    if (!$success) { 
-		        echo "<p>No se pudo guardar.</p>";
-		        exit;
-		    }/*
-		    // ensure a safe filename
-		    $name = preg_replace("/[^A-Z0-9._-]/i", "_", $archivo["name"]);
-		 	
-		    // preserve file from temporary directory
-		    $success = move_uploaded_file($archivo["tmp_name"],
-		        $serv . $name);*/
 		    // set proper permissions on the new file
 		    chmod($serv . $name, 0644);
 		    $serv = $consulta->nombreM."/".$name;
 		    $query = "INSERT INTO guia(nombre,tipo) VALUES('$serv','$descripcion')";
-		    echo $query;
 		    if ($this->insertTabRel($query,"A_Guia","Actividad_idActividad","Guia_idGuia",$idActividad)) {
 				$_SESSION["msj"] = "Guia Agregada Satisfactoriamente";
 			}else{

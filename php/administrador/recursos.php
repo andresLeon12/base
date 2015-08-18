@@ -13,7 +13,6 @@
 		session_start();
 	include_once("../Conexion.class.php");
 	$conex = new Conexion;
-
 	$misModelos =  json_decode($conex->get("SELECT idModelo_P,nombreM,version FROM modelo_p"));
  ?>
 <div class="row"></div>
@@ -108,8 +107,6 @@
 		echo "<p class='yellow'>Lo sentimos <strong>no hay recursos</strong></p>";
 		return;
 	}
-
-
 	//echo "<table id='example' class='cell-border'><tr><td>Nombre</td><td>Descripción</td><td>Tipo</td><td>Fase</td><td>Modelo</td></tr>";
 	echo "<table id='example' class='cell-border' cellspacing='0' width='100%'>";
         echo "<thead>";
@@ -124,7 +121,6 @@
                 echo "<th></th><th></th>";
             echo "</tr>";
         echo "</thead>";
-
 	for($i=0;$i<count($recursos);$i++){
 		//echo "<form action='' method='POST'>";
 			echo "<tr>";
@@ -147,9 +143,9 @@
 					<input type='hidden' id='idRecurso-".$i."' value='".$recursos[$i]->idRecursoFisico."'/>
 					<input type='hidden'  id='nombreRecurso-".$i."' value='".$recursos[$i]->nombre."'/>
 					<input type='hidden'  id='tipoRecurso-".$i."' value='fisico'/>
-					<button type='submit' name='eliminar' class='btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-delete'></i></button>
+					<button type='submit' name='eliminar' class='btn-floating btn-large waves-effect waves-green'><i class='mdi-action-settings'></i></button>
 				</form></td>";
-				echo "<td><a href='#!' id='".$recursos[$i]->idRecursoFisico."' class='miRecursoF btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-settings'>Editar</i></a></td>";
+				echo "<td><a href='#!' id='".$recursos[$i]->idRecursoFisico."' class='miRecursoF btn-floating btn-large waves-effect waves-light red'><i class='mdi-action-delete'>Editar</i></a></td>";
 			echo "</tr>";
 		$j = ($i+1);
 	}
@@ -182,7 +178,6 @@
 			echo "</tr>";
 		//echo "</form>";
 	}
-
 	echo "</table>";
 	//include ("printModelos.php");
 	?>

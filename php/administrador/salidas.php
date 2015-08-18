@@ -143,7 +143,7 @@
 
 				echo "<td>".$modelo->nombreM."</td>";
 
-				echo "<td><a href='#editSalida' id='".$salidas[$i]->idSalida."' class='miSalida btn-floating btn-large waves-effect waves-light blue'><i class='mdi-action-settings'>Editar</i></a></td>";
+				echo "<td><a href='#editSalida' id='".$salidas[$i]->idSalida."' class='miSalida btn-floating btn-large waves-effect waves-green'><i class='mdi-action-settings'>Editar</i></a></td>";
 				echo "<td>
 				<form class='eliminarSalida' id='eliminarSalida-".$i."' method='POST'>
 					<input type='hidden' id='idSalida-".$i."' value='".$salidas[$i]->idSalida."'/>

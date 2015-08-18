@@ -81,7 +81,6 @@
 		}
 		//return;
 		header("location: inicio_admin.php");
-
 	}elseif(isset($_POST['Agregar'])){
 		$conex = new Conexion;
 		$idActividad = $_POST['idActividad'];
@@ -116,7 +115,7 @@
 				header("location: inicio_admin.php");
 				return;
 			}
-			$query = "INSERT INTO recursof VALUES(null,'$nombre','$idTipo','$descripcion')";
+			$query = "INSERT INTO recursof(nombre,tipo,descripcion) VALUES('$nombre','$idTipo','$descripcion')";
 		}else{
 			$ban = 0;
 			$query = "SELECT * FROM recursoh WHERE nombre='$nombre' and tipo='$idTipo'";
@@ -135,15 +134,15 @@
 					return;
 				}
 			}
-			$query = "INSERT INTO recursoh VALUES(null,'$nombre','$idTipo')";
+			$query = "INSERT INTO recursoh(nombre,tipo) VALUES('$nombre','$idTipo')";
 		}
 		//return;
 		//if ($conex->insert($query)) {
 			if($_POST['tipo_recurso'] == "fisico"){
 				if ($conex->insertTabRel($query,"actividad_rf","Actividad_idActividad","RecursoF_idRecursoFisico",$idActividad)) {
-					$_SESSION["msj"] = "Activo Agregado Satisfactoriamente";
+					$_SESSION["msj"] = "Recurso Agregado Satisfactoriamente";
 				}else{
-					$_SESSION["msj"] = "Activo no Agregado ";
+					$_SESSION["msj"] = "Recurso no Agregado ";
 				}
 				/*$query = "SELECT idRecursoFisico FROM recursof";
 				$consulta = json_decode($conex->get($query));
@@ -151,9 +150,9 @@
 				$query = "INSERT INTO actividad_rf VALUES(null,$id,$idActividad)";*/
 			}else{
 				if ($conex->insertTabRel($query,"actividad_rh","Actividad_idActividad","RecursoH_idRecursoHumano",$idActividad)) {
-					$_SESSION["msj"] = "Activo Agregado Satisfactoriamente";
+					$_SESSION["msj"] = "Recurso Agregado Satisfactoriamente";
 				}else{
-					$_SESSION["msj"] = "Activo no Agregado ";
+					$_SESSION["msj"] = "Recurso no Agregado ";
 				}
 				/*$query = "SELECT idRecursoHumano FROM recursoh";
 				$consulta = json_decode($conex->get($query));
@@ -168,14 +167,12 @@
 		/*}else{
 			$_SESSION["msj"] = "Recurso no Agregado ";
 		}*/
-		//return;
 		header("location: inicio_admin.php");
 	}elseif (isset($_GET['type'])) {
 		# obtendremos en forma de combo los modelos dados de alta
 		$conex = new Conexion;
 		
 		$query  = "SELECT idModelo_P, nombreM FROM modelo_p";
-
 		echo $conex->get($query);
 	}elseif(isset($_POST['eliminar'])){
 		$id = $_POST["idRecurso"];
@@ -192,5 +189,4 @@
 		}
 		header("location: inicio_admin.php");
 	}
-
  ?>

@@ -2,18 +2,10 @@
 var msj = '';
 m = setInterval(titulo, 5000);
 $(document).ready(function(){
-	
+	$("#Formulario").show("slow");
+	$("#resultados").hide("slow");
 	$('ul.tabs').tabs();
 	$(".button-collapse").sideNav();
-	$('.dropdown-button').dropdown({
-      inDuration: 600,
-      outDuration: 225,
-      constrain_width: true, // Does not change width of dropdown to that of the activator
-      hover: true, // Activate on hover
-      gutter: 0, // Spacing from edge
-      belowOrigin: true // Displays dropdown below the button
-    }
-  );
 	$("#login").submit(function(){
 		user = $("#user").val()
 		pass = $("#pass").val()
@@ -39,46 +31,66 @@ $(document).ready(function(){
 		$("#adminLog").removeClass("active z-depth-2");
 		$("#jefeLog").addClass("active z-depth-2");
 	});
+	switch($("#seccion_act").val()){
+		case 'Formulario':
+			$("#selectContent").prop("checked",false);
+			$("#Formulario").slideDown("slow");
+			$("#resultados").slideUp("slow");
+			$("#title").show("slow");
+			$("#titleR").hide("slow");
+		break;
+		case 'resultados':
+			$("#selectContent").prop("checked",true);
+			$("#Formulario").slideUp("slow");
+			$("#resultados").slideDown("slow");
+			$("#title").fadeOut("slow");
+			$("#titleR").fadeIn("slow");
+		break;
+	}
 	switch($("#pag_act").val()){
 		case 'modelos':
 		$("#modelsLi").addClass("active");
-		$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,entradasLi").removeClass("active");
+		$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,entradasLi,#productosLi").removeClass("active");
 		break;
 		case 'fases':
 		$('#content').load('fases.php');//cargando la vista de fase.php en el div con el id de content
 		$("#fasesLi").addClass("active");
-		$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#modelsLi,#actividadesLi,#salidasLi,entradasLi").removeClass("active");
+		$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#modelsLi,#actividadesLi,#salidasLi,entradasLi,#productosLi").removeClass("active");
 		break;
 		case 'actividades':
 		$("#actividadesLi").addClass("active");
-		$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#modelsLi,#salidasLi,entradasLi").removeClass("active");
+		$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#modelsLi,#salidasLi,entradasLi,#productosLi").removeClass("active");
 		break;
 		case 'recursos':
 		$("#recursosLi").addClass("active");
-		$("#guiasLi,#activosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi").removeClass("active");
+		$("#guiasLi,#activosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi,#productosLi").removeClass("active");
 		break;
 		case 'guias':
 		$("#guiasLi").addClass("active");
-		$("#modelsLi,#activosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi").removeClass("active");
+		$("#modelsLi,#activosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi,#productosLi").removeClass("active");
 		break;
 		case 'activos':
 		$("#activosLi").addClass("active");
-		$("#guiasLi,#recursosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi").removeClass("active");
+		$("#guiasLi,#recursosLi,#modelsLi,#tareasLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi,#productosLi").removeClass("active");
 		break;
 		case 'tareas':
 		$("#tareasLi").addClass("active");
-		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi").removeClass("active");
+		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#salidasLi,#entradasLi,#medidasLi,#productosLi").removeClass("active");
 		break;
 		case 'entradas':
 		$("#entradasLi").addClass("active");
-		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#salidasLi,#tareasLi,medidasLi").removeClass("active");
+		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#salidasLi,#tareasLi,medidasLi,#productosLi").removeClass("active");
 		break;
 		case 'salidas':
 		$("#salidasLi").addClass("active");
-		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#tareasLi,#entradasLi,#medidasLi").removeClass("active");
+		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#tareasLi,#entradasLi,#medidasLi,#productosLi").removeClass("active");
 		break;
 		case 'medidas':
 		$("#medidasLi").addClass("active");
+		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#tareasLi,#entradasLi,#productosLi").removeClass("active");
+		break;
+		case 'productos':
+		$("#productosLi").addClass("active");
 		$("#guiasLi,#activosLi,#modelsLi,#recursosLi,#fasesLi,#actividadesLi,#tareasLi,#entradasLi").removeClass("active");
 		break;
 	}
@@ -93,18 +105,16 @@ function titulo(){
 }
 
 $(document).on('submit', "#submitAct", function(){
-	$.ajax({
-		method: "GET",
-		data: { type : 'combo'},
-		url: "nuevoModelo.php",
-	}).done(function( resultado ) {
-	 	res = JSON.parse(resultado)
-		if(res.length <= 0){
-		 	$("#msj").html("Es necesario agregar modelos para continuar.")
-		 	return false;
-		}
-	})
-	//return false;
+	if($("#guia").val() != '' && $("#descripcionGuia").val() == ""){
+		nombre = $("#guia").val().split("\\");
+		alert("Por favor agregue una descripcion para "+nombre[nombre.length-1])
+		return false;
+	}
+	if($("#activo").val() != '' && $("#descripcionActivo").val() == ""){
+		nombre = $("#activo").val().split("\\");
+		alert("Por favor agregue una descripcion para "+nombre[nombre.length-1])
+		return false;
+	}
 });
 
 $(document).on('submit', "#submitFases", function(){
@@ -343,11 +353,17 @@ $(document).on("click","a", function(){
 				}).done(function(resultado){
 					
 					res = JSON.parse(resultado)
+
 					$("#nomActivity").html("Actividad: <b>"+res.nombre+"</b>")
+					$("#idActual").html("Id Actual: <b>"+res.identificador+"</b>")
 					$("#nombreEdit").val(res.nombre)					
 					$("#descripcionEdit").val(res.descripcion)
 					$("#tipoEdit").val(res.tipo)
 					$("#idActividadEdit").val(idActividad)
+					idd = res.identificador;
+					partition = idd.split(".");
+					$("#id_Act2").val(partition[2]);
+					$("#identificadorEdit").val(res.identificador)
 					
 					idFase = parseInt(res.Fase_idFase)
 					//Obtenemos el modelo al que pertenece
@@ -358,7 +374,12 @@ $(document).on("click","a", function(){
 						//url: "getByID.php",
 					}).done(function(resultado){
 						res = JSON.parse(resultado)
+
+						orden = res.orden;
 						idModel = res.Modelo_P_idModelo_P
+
+						$("label[for='idAct2']").text("A."+orden+".");
+
 						$("#modelsEdit option").each(function(){
 							element = this
 							if(element.value == idModel){
@@ -396,36 +417,63 @@ $(document).on("click","a", function(){
 								$("#dependenciaEdit").append("<option selected value='0'>Seleccione una dependencia</option>");
 								for(i=0;i<res.length;i++){
 									$("#dependenciaEdit").append("<option value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
+									//alert("res[i] "+res[i].idActividad)
 							 	}
 
 							 	$('#dependenciaEdit > option[value="0"]').attr('selected', 'true');
 							 	//$('#dependenciaEdit > option[value="'+idActividad+'"]').remove();
 							 	$('#dependenciaEdit > option[value="'+idActividad+'"]').attr('disabled','disabled');
-							 	
+							 	$("select#idMedidaEdit").prop('selectedIndex', 0);
 							 	$.ajax({
 									method: 'GET',
-									data: {table : 'dependencia' , id : idActividad , idTable : 'Actividad_idActividad'},
+									data: {table : 'actmed' , id : idActividad , idTable : 'Actividad_idActividad'},
 									url: "getById.php",
 									//url: "getByID.php",
 								}).done(function(resultado){
 									res = JSON.parse(resultado);
-									depende_De = res.depende_De;
+									idMedida = res.Medida_idMedida
+									$.ajax({
+										method: 'GET',
+										data: {table : 'medida' , id : idMedida , idTable : 'idMedida'},
+										url: "getById.php",
+										//url: "getByID.php",
+									}).done(function(resultado){
+										res = JSON.parse(resultado);
+										nombre = res.nombre
+										$("#idMedidaEdit option").each(function(){
+									 		element = this
+									 		if(element.text == nombre){
+									 			//alert(element.value +" "+depende_De)
+									 			$(this).attr("selected","true")
+									 		}
+									 	});
+									 	$.ajax({
+											method: 'GET',
+											data: {table : 'dependencia' , id : idActividad , idTable : 'Actividad_idActividad'},
+											url: "getById.php",
+											//url: "getByID.php",
+										}).done(function(resultado){
+											res = JSON.parse(resultado);
+											depende_De = res.depende_De;
 
-									$("#dependenciaEdit option").each(function(){
-								 		element = this
-								 		if(element.value == depende_De){
-								 			//alert(element.value +" "+depende_De)
-								 			$(this).attr("selected","true")
-								 		}
-								 	});
+											$("#dependenciaEdit option").each(function(){
+										 		element = this
+										 		if(element.value == depende_De){
+										 			//alert(element.value +" "+depende_De)
+										 			$(this).attr("selected","true")
+										 		}
+										 	});
+										 	
+										})
+									})
 								})
-
 						 	})
 
 							$("#nombreEdit").focus()
 							$("#descripcionEdit").focus()
 							$("#tipoEdit").focus()
-							$("#nombreEdit").focus()
+							$("#identificadorEdit").focus()
+							$("#modelsEdit").focus()
 
 						})
 						$('#editarActividad').openModal()
@@ -437,77 +485,15 @@ $(document).on("click","a", function(){
 			var idActividad = idFase = idModel = 0;
 			$.ajax({
 				method: 'GET',
-				data: {table : 'A_Guia' , id : idGuia , idTable : 'Guia_idGuia'},
+				data: {table : 'guia' , id : idGuia , idTable : 'idGuia'},
 				url: "getById.php",
 			}).done(function(resultado){
 				res = JSON.parse(resultado)
-				idActividad = res.Actividad_idActividad
-				$.ajax({
-					method: 'GET',
-					data: {table : 'actividad' , id : idActividad , idTable : 'idActividad'},
-					url: "getByID.php",
-				}).done(function(resultado){
-					res = JSON.parse(resultado)
-					idFase = parseInt(res.Fase_idFase)
-					//Obtenemos el modelo al que pertenece
-					$.ajax({
-						method: 'GET',
-						data: {table : 'fase' , id : idFase , idTable : 'idFase'},
-						url: "getByID.php",
-					}).done(function(resultado){
-						res = JSON.parse(resultado)
-						idModel = res.Modelo_P_idModelo_P
-						$("#modelsEdit option").each(function(){
-							element = this
-							if(element.value == idModel){
-								$(this).attr("selected", "true")
-							}
-						});
-						$.ajax({
-							method: 'GET',
-							data: {getByModel : idModel },
-							url: "fasesMetodos.php",
-						}).done(function(resultado){
-							res = JSON.parse(resultado)
-							$("#idFasesEdit").empty()
-							$("#idFasesEdit").append("Selecciona una fase");
-							for(i=0;i<res.length;i++){
-								if(res[i].idFase == idFase)
-						 			$("#idfasesEdit").append("<option selected value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
-						 		else
-						 			$("#idfasesEdit").append("<option value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
-						 		
-						 	}
-						 	$.ajax({
-								method: 'GET',
-								data: {getByFase : idFase },
-								url: "actividadesMetodos.php",
-							}).done(function(resultado){
-								res = JSON.parse(resultado)
-								$("#idActividadesEdit").append("Selecciona una actividad");
-								for(i=0;i<res.length;i++){
-									if(res[i].idActividad == idActividad)
-							 			$("#idActividadesEdit").append("<option selected value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
-							 		else
-							 			$("#idActividadesEdit").append("<option value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
-								}
-								$.ajax({
-									method: 'GET',
-									data: {table : 'guia' , id : idGuia , idTable : 'idGuia'},
-									url: "getByID.php",
-								}).done(function(resultado){
-									res = JSON.parse(resultado)
-									$("#tipoEdit").val(res.tipo)
-									$("#tipoEdit").focus()
-									nombre = res.nombre.split("/")
-									$("#linkFileEditGuia").text(nombre[1])
-									$("#linkFileEditGuia").attr("href", "../../archivos/"+res.nombre)
-									$("#linkOldFile").val(res.nombre)
-								})
-							})
-						})
-					})
-				})
+				$("#descripcionGuia2").val(res.tipo)
+				$("#descripcionGuia2").focus()
+				nombre = res.nombre.split("/")
+				$("#prewievGuia2").val(nombre[1])
+				$("#linkOldFile").val(res.nombre)
 			})
 			
 			$("#editarGuia").openModal()
@@ -518,80 +504,18 @@ $(document).on("click","a", function(){
 			var idActividad = idFase = idModel = 0;
 			$.ajax({
 				method: 'GET',
-				data: {table : 'A_Activo' , id : idActivo , idTable : 'Activo_idActivo'},
+				data: {table : 'activo' , id : idActivo , idTable : 'idActivo'},
 				url: "getById.php",
 			}).done(function(resultado){
 				res = JSON.parse(resultado)
-				idActividad = res.Actividad_idActividad
-				$.ajax({
-					method: 'GET',
-					data: {table : 'actividad' , id : idActividad , idTable : 'idActividad'},
-					url: "getByID.php",
-				}).done(function(resultado){
-					res = JSON.parse(resultado)
-					idFase = parseInt(res.Fase_idFase)
-					//Obtenemos el modelo al que pertenece
-					$.ajax({
-						method: 'GET',
-						data: {table : 'fase' , id : idFase , idTable : 'idFase'},
-						url: "getByID.php",
-					}).done(function(resultado){
-						res = JSON.parse(resultado)
-						idModel = res.Modelo_P_idModelo_P
-						$("#modelsEdit option").each(function(){
-							element = this
-							if(element.value == idModel){
-								$(this).attr("selected", "true")
-							}
-						});
-						$.ajax({
-							method: 'GET',
-							data: {getByModel : idModel },
-							url: "fasesMetodos.php",
-						}).done(function(resultado){
-							res = JSON.parse(resultado)
-							$("#idFasesEdit").empty()
-							$("#idFasesEdit").append("Selecciona una fase");
-							for(i=0;i<res.length;i++){
-								if(res[i].idFase == idFase)
-						 			$("#idfasesEdit").append("<option selected value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
-						 		else
-						 			$("#idfasesEdit").append("<option value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
-						 		
-						 	}
-						 	$.ajax({
-								method: 'GET',
-								data: {getByFase : idFase },
-								url: "actividadesMetodos.php",
-							}).done(function(resultado){
-								res = JSON.parse(resultado)
-								$("#idActividadesEdit").append("Selecciona una actividad");
-								for(i=0;i<res.length;i++){
-									if(res[i].idActividad == idActividad)
-							 			$("#idActividadesEdit").append("<option selected value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
-							 		else
-							 			$("#idActividadesEdit").append("<option value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
-								}
-								$.ajax({
-									method: 'GET',
-									data: {table : 'activo' , id : idActivo , idTable : 'idActivo'},
-									url: "getByID.php",
-								}).done(function(resultado){
-									res = JSON.parse(resultado)
-									$("#descripcion").text(res.descripcion)
-									$("#descripcion").focus()
-									nombre = res.nombre.split("/")
-									$("#linkFileEditActivo").text(nombre[1])
-									$("#linkFileEditActivo").attr("href", "../../archivos/"+res.nombre)
-									$("#linkOldFile").val(res.nombre)
-								})
-							})
-						})
-					})
-				})
+				$("#descripcionActivo2").val(res.descripcion)
+				$("#descripcionActivo2").focus()
+				nombre = res.nombre.split("/")
+				$("#prewievActivo2").val(nombre[1])
+				$("#linkOldFile2").val(res.nombre)
 			})
 
-			$("#editarGuia").openModal()
+			$("#editarActivo").openModal()
 
 		}else if (seccion.indexOf("miRecurso")>=0) {
 			idRecurso = $(this).attr('id')
@@ -762,6 +686,13 @@ $(document).on("click","#salidas",function(){
 	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#modelsLi,#entradasLi,#actividadesLi,#medidasLi").removeClass("active");
 	pag_act = 'salidas';
 });
+
+$(document).on("click","#productos",function(){
+	$("#content").load('productosTrabajo.php');
+	$("#productosLi").addClass("active");
+	$("#guiasLi,#activosLi,#recursosLi,#tareasLi,#fasesLi,#modelsLi,#entradasLi,#actividadesLi,#medidasLi").removeClass("active");
+	pag_act = 'productos';
+});
 /*********************************/
 $(document).on("click","#guias",function(){
 	//alert("guias");
@@ -802,11 +733,42 @@ $(document).on("click","#medidas",function(){
 
 /*--------------------------------------EDIEL---------------------*/
 $(document).on("change","#idfases",function(){
-	id = $(this).val()
+	idFase = $(this).val()
+	//alert("idFase "+idFase)
+	$.ajax({
+		method: 'GET',
+		data: {table : 'fase' , id : idFase , idTable : 'idFase'},
+		url: "getById.php",
+		//url: "getByID.php",
+	}).done(function(resultado){
+		res = JSON.parse(resultado);
+		orden = res.orden;
+		//alert("miOrden es "+orden)
+		//$("#nombre").val("A."+orden);
+
 		$.ajax({
 			method: "GET",
-			data: { getByModel : id},
+			data: { getCountAct : idFase},
 			url: "actividadesMetodos.php",
+		}).done(function( resultado ) {
+			//alert("resssssdasdsadsa "+resultado)
+			res = JSON.parse(resultado);
+			//alert("ressss "+res[0].cantidad)
+			numActividad = parseInt(res[0].cantidad);
+			numActividad = numActividad+1;
+
+			if(numActividad == 0){
+				numActividad = 1;
+			}
+
+			$("label[for='idAct']").text("A."+orden+".");
+			$("#id_Act").val(numActividad);//sugerencia para el usuario...puede editar el num
+			$("#idActividad").val("A."+orden+"."+numActividad);//la primera vez
+
+			$.ajax({
+				method: "GET",
+				data: { getByModel : id},
+				url: "actividadesMetodos.php",
 			}).done(function( resultado ) {
 			 	res = JSON.parse(resultado)
 			 	//alert(res[0].);
@@ -816,13 +778,132 @@ $(document).on("change","#idfases",function(){
 			 		$("#idActividades").empty("<option>Selecciona una actividad</option>");
 			 	}else{
 			 		$("#idActividades").append("<option>Lo sentimos aun no hay Actividades</option>")
-
 			 	}
 			 	for(i=0;i<res.length;i++){
 			 		$("#idActividades").append("<option value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
 			 	}
+		    })
+		})
+	})
+});
+$(document).on("change","#idfasesEdit",function(){
+	id = $(this).val()
+	
+	if (id > 0) {
+		//alert("id "+id)
+		$.ajax({
+			method: 'GET',
+			data: {table : 'fase' , id : id , idTable : 'idFase'},
+			url: "getById.php",
+			//url: "getByID.php",
+		}).done(function(resultado){
+			//alert("res s "+resultado)
+			res = JSON.parse(resultado);
+			orden = res.orden;
+			//alert("miOrden es "+orden)
+			//$("#nombre").val("A."+orden);
+
+			$.ajax({
+				method: "GET",
+				data: { getCountAct : id},
+				url: "actividadesMetodos.php",
+			}).done(function( resultado ) {
+				//alert("resssssdasdsadsa "+resultado)
+				res = JSON.parse(resultado);
+				//alert("ressss "+res[0].cantidad)
+				numActividad = parseInt(res[0].cantidad);
+				numActividad = numActividad+1;
+
+				if(numActividad == 0){
+					numActividad = 1;
+				}
+				//alert("hey");
+				$("label[for='idAct2']").text("A."+orden+".");
+				$("#id_Act2").val(numActividad);//sugerencia para el usuario...puede editar el num
+				$("#identificadorEdit").val("A."+orden+"."+numActividad);//la primera vez
+			})
+		})
+
+	}
+
+	$.ajax({
+		method: "GET",
+		data: { getActividadesChange : id},
+		url: "actividadesMetodos.php",
+	}).done(function( resultado ) {		
+	 	res = JSON.parse(resultado)
+	 	//alert(res[0].);
+	 	$("#idActividadesf").empty();
+	 	if(res.length > 0)
+	 		$("#idActividadesf").append("<option>Selecciona una Actividad</option>")
+	 	else
+	 		$("#idActividadesf").append("<option>Lo sentimos aun no hay Actividades</option>")
+
+	 	for(i=0;i<res.length;i++){
+	 		$("#idActividadesf").append("<option value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
+	 	}
+    })
+});
+//---------------------------------------------------------------------v1-------------------------
+$(document).on("change","#idActividades",function(){
+	id = $(this).val()
+	
+
+	//alert(id);
+	
+		$.ajax({
+			method: "GET",
+			data: { getByActividad : id},
+			url: "productosMetodos.php",
+			}).done(function( resultado ) {
+	
+			 	res = JSON.parse(resultado)
+			 	
+			 	//alert(res[0].);
+			 	$("#idTareas").empty();
+			 	if(res.length > 0){
+			 		$("#idTareas").append("<option>Selecciona una Tarea</option>")
+			 		//$("#idActividades").empty("<option>Selecciona una actividad</option>");
+			 	}else{
+			 		$("#idTareas").append("<option>Lo sentimos aun no hay Tareas</option>")
+
+			 	}
+			 	for(i=0;i<res.length;i++){
+			 		$("#idTareas").append("<option value='"+res[i].idTarea+"'>"+res[i].nombre+"</option>");
+			 	}
 	    })
 });
+
+
+$(document).on("change","#idActividadesEdit",function(){
+	id = $(this).val()
+	
+
+	//alert(id);
+	
+		$.ajax({
+			method: "GET",
+			data: { getByActividad : id},
+			url: "productosMetodos.php",
+			}).done(function( resultado ) {
+	
+			 	res = JSON.parse(resultado)
+			 	
+			 	//alert(res[0].);
+			 	$("#idTareasEdit").empty();
+			 	if(res.length > 0){
+			 		$("#idTareasEdit").append("<option>Selecciona una Tarea</option>")
+			 		//$("#idActividades").empty("<option>Selecciona una actividad</option>");
+			 	}else{
+			 		$("#idTareasEdit").append("<option>Lo sentimos aun no hay Tareas</option>")
+
+			 	}
+			 	for(i=0;i<res.length;i++){
+			 		$("#idTareasEdit").append("<option value='"+res[i].idTarea+"'>"+res[i].nombre+"</option>");
+			 	}
+	    })
+});
+//-----------------------------------------------------v1----------------------------------------
 
 $(document).on("change","#idfasesEdit",function(){
 	    id = $(this).val()
@@ -861,8 +942,14 @@ $(document).on("change","#models",function(){
 			 	$("#idfases").empty();
 			 	if(res.length > 0)
 			 		$("#idfases").append("<option>Selecciona una fase</option>")
-			 	else
+			 	else{
+			 		$("#idActividades").empty();
+			 		$("#idTareas").empty();
 			 		$("#idfases").append("<option>Lo sentimos aun no hay fases</option>")
+			 		$("#idActividades").append("<option>Lo sentimos aun no hay actividades</option>")
+			 		$("#idTareas").append("<option>Lo sentimos aun no hay tareas</option>")
+			 		$("#idfases").append("<option>Lo sentimos aun no hay fases</option>")
+			 	}
 			 	for(i=0;i<res.length;i++){
 			 		$("#idfases").append("<option value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
 			 	}
@@ -882,8 +969,13 @@ $(document).on("change","#modelsEdit",function(){
 	 	//if(res.length == 0)
 	 	if(res.length > 0)
 	 		$("#idfasesEdit").append("<option>Selecciona una fase</option>")
-	 	else
+	 	else{
 	 		$("#idfasesEdit").append("<option>Lo sentimos aun no hay fases</option>")
+	 		$("#idActividadesEdit").empty();
+	 		$("#idActividadesEdit").append("<option>Lo sentimos aun no hay actividades</option>")
+	 		$("#idTareasEdit").empty();
+	 		$("#idTareasEdit").append("<option>Lo sentimos aun no hay actividades</option>")
+	 	}
 	 	for(i=0;i<res.length;i++){
 	 		$("#idfasesEdit").append("<option value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
 	 	}

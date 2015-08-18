@@ -7,7 +7,6 @@
 <div class="row"></div>
 <div class="container">	
 <?php  
-
 if (session_id()==null)
 	session_start();
 include_once ("../Conexion.class.php");
@@ -71,7 +70,6 @@ if(count($medidas)==0){
 	echo "<p class='yellow'>Lo sentimos <strong>no hay medidas</strong></p>";
 	return;
 }
-
 echo "<table id='example' class='cell-border' cellspacing='0' width='100%'>";
         echo "<thead>";
             echo "<tr>";
@@ -83,13 +81,12 @@ echo "<table id='example' class='cell-border' cellspacing='0' width='100%'>";
                 echo "<th></th>";
             echo "</tr>";
         echo "</thead>";
-
 for($i=0;$i<count($medidas);$i++){
 	echo "<tr>";
 		echo "<td>".$medidas[$i]->nombre."</td>";
 		echo "<td>".$medidas[$i]->descripcion."</td>";
 		echo "<td>".$medidas[$i]->unidad_medida."</td>";
-		echo "<td style='text-align:center;'><a href='#!' id='".$medidas[$i]->idMedida."' class='miMedida btn-floating btn-large waves-effect waves-light blue'><i class='mdi-action-settings'></i>Editar</a></td>";
+		echo "<td style='text-align:center;'><a href='#!' id='".$medidas[$i]->idMedida."' class='miMedida btn-floating btn-large waves-effect waves-green'><i class='mdi-action-settings'></i>Editar</a></td>";
 		echo "<td style='text-align:center;'><form class='eliminarMedida' id='eliminarMedida-".$i."' method='POST'>";
 			echo "<input type='hidden' value='".$medidas[$i]->idMedida."' name='idT' id='idM-".$i."'/>";
 			echo "<input type='hidden' value='".$medidas[$i]->nombre."' name='nomT' id='nomM-".$i."'/>";
@@ -97,9 +94,7 @@ for($i=0;$i<count($medidas);$i++){
 		echo "</form></td>";
 	echo "</tr>";
 }
-
 echo "</table>";
-
 ?>
 <!-- F I N Mostrar medidas -->
 
@@ -130,8 +125,8 @@ echo "</table>";
 			</div>
 			<div class="modal-footer">
 				<input type="hidden" name="idMedida" id="idMedida">
-				<a class="modal-action modal-close wavs-effects wavs-green btn-flat" style="color:red;">Cancelar</a>
-				<input type="submit" name="Editar" id="editar" class="wavs-effects wavs-green btn-flat" style="color:darkblue;" value="Editar" />
+				<a class="modal-action modal-close wavs-effects wavs-green btn-flat" >Cancelar</a>
+				<input type="submit" name="Editar" id="editar" class="wavs-effects wavs-green btn-flat" value="Editar" />
 			</div>
 		</form>
 	</div>
@@ -152,8 +147,8 @@ echo "</table>";
 			<input type="hidden" id="nombreMedidaForm" name="nombreMedidaForm" />
 	</div>
 	<div class="modal-footer">
-		<a class="modal-action modal-close wavs-effects wavs-green btn-flat" style="color:blue;">Cancelar</a>
-		<input type="submit" name="eliminar" class="wavs-effects wavs-green btn-flat" style="color:red;" value="Si deseo eliminar la medida" />
+		<a class="modal-action modal-close wavs-effects wavs-green btn-flat">Cancelar</a>
+		<input type="submit" name="eliminar" class="wavs-effects wavs-green btn-flat"  value="Si deseo eliminar la medida" />
 	</div>
 	</form>
 </div>

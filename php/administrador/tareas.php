@@ -125,7 +125,7 @@ for($i=0;$i<count($tareas);$i++){
 		$query = "SELECT nombreM FROM modelo_P WHERE idModelo_P=".$fase->Modelo_P_idModelo_P;
 		$model = json_decode($conex->getById($query));
 		echo "<td>".$model->nombreM."</td>";
-		echo "<td style='text-align:center;'><a href='#!' id='".$tareas[$i]->idTarea."' class='miTarea btn-floating btn-large waves-effect waves-light blue'><i class='mdi-action-settings'></i>Editar</a></td>";
+		echo "<td style='text-align:center;'><a href='#!' id='".$tareas[$i]->idTarea."' class='miTarea btn-floating btn-large waves-effect waves-green'><i class='mdi-action-settings'></i>Editar</a></td>";
 		echo "<td style='text-align:center;'><form class='eliminarTarea' id='eliminarTarea-".$i."' method='POST'>";
 			echo "<input type='hidden' value='".$tareas[$i]->idTarea."' name='idT' id='idT-".$i."'/>";
 			echo "<input type='hidden' value='".$tareas[$i]->nombre."' name='nomT' id='nomT-".$i."'/>";
@@ -182,8 +182,8 @@ echo "</table>";
 			    </div>
 			</div>
 			<div class="modal-footer">
-				<a class="modal-action modal-close wavs-effects wavs-green btn-flat" style="color:red;">Cancelar</a>
-				<input type="submit" name="Editar" id="editar" class="wavs-effects wavs-green btn-flat" style="color:darkblue;" value="Editar" />
+				<a class="modal-action modal-close wavs-effects wavs-green btn-flat" >Cancelar</a>
+				<input type="submit" name="Editar" id="editar" class="wavs-effects wavs-green btn-flat"  value="Editar" />
 			</div>
 		</form>
 	</div>
@@ -204,8 +204,8 @@ echo "</table>";
 			<input type="hidden" id="nombreTareaForm" name="nombreTareaForm" />
 	</div>
 	<div class="modal-footer">
-		<a class="modal-action modal-close wavs-effects wavs-green btn-flat" style="color:blue;">Cancelar</a>
-		<input type="submit" name="eliminar" class="wavs-effects wavs-green btn-flat" style="color:red;" value="Si deseo eliminar la fase" />
+		<a class="modal-action modal-close wavs-effects wavs-green btn-flat">Cancelar</a>
+		<input type="submit" name="eliminar" class="wavs-effects wavs-green btn-flat" value="Si deseo eliminar la fase" />
 	</div>
 	</form>
 </div>

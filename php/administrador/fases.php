@@ -115,7 +115,7 @@ for($i=0;$i<count($fases);$i++){
 		echo "<td>".$fases[$i]->descripcion."</td>";
 		echo "<td style='text-align:center;'>".$fases[$i]->orden."</td>";
 		echo "<td style='text-align:center;'>".$fases[$i]->nombreM." V ".$fases[$i]->version."</td>";
-		echo "<td style='text-align:center;'><a href='#!' id='".$fases[$i]->idFase."' class='miFase btn-floating btn-large waves-effect waves-light blue'><i class='mdi-action-settings'></i>Editar</a></td>";
+		echo "<td style='text-align:center;'><a href='#!' id='".$fases[$i]->idFase."' class='miFase btn-floating btn-large waves-effect waves-green'><i class='mdi-action-settings'></i>Editar</a></td>";
 		echo "<td style='text-align:center;'><form class='eliminarFase' id='eliminarFase-".$i."' method='POST'>";
 			echo "<input type='hidden' value='".$fases[$i]->idFase."' name='idF' id='idF-".$i."'/>";
 			echo "<input type='hidden' value='".$fases[$i]->nombre."' name='nomF' id='nomF-".$i."'/>";
@@ -176,8 +176,8 @@ echo "</table>";
 			    </div>
 			</div>
 			<div class="modal-footer">
-				<a class="modal-action modal-close wavs-effects wavs-green btn-flat" style="color:red;">Cerrar</a>
-				<input type="submit" name="Editar" class="wavs-effects wavs-green btn-flat" value="Actualizar informacion" style="color:blue;" />
+				<a class="modal-action modal-close wavs-effects wavs-green btn-flat" >Cerrar</a>
+				<input type="submit" name="Editar" class="wavs-effects wavs-green btn-flat" value="Actualizar informacion"  />
 			</div>
 		</form>
 	</div>
@@ -200,8 +200,8 @@ echo "</table>";
 			<input type="hidden" id="nombreFaseForm" name="nombreFaseForm" />
 	</div>
 	<div class="modal-footer">
-		<a class="modal-action modal-close wavs-effects wavs-green btn-flat" style="color:blue;">Cancelar</a>
-		<input type="submit" name="eliminar" class="wavs-effects wavs-green btn-flat" style="color:red;" value="Si deseo eliminar la fase" />
+		<a class="modal-action modal-close wavs-effects wavs-green btn-flat">Cancelar</a>
+		<input type="submit" name="eliminar" class="wavs-effects wavs-green btn-flat"  value="Si deseo eliminar la fase" />
 	</div>
 	</form>
 </div>

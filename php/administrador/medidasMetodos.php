@@ -1,13 +1,11 @@
- <?php
+<?php
 	if (session_id()==null)
  		session_start();
 	include_once("../Conexion.class.php");
-
 	if(isset($_POST['Agregar'])){
 		$nombre = $_POST["nombre"];
 		$descripcion = $_POST["descripcion"];
 		$unidad_medida = $_POST["unidad_medida"];
-
 		$conex = new Conexion;
 		$query = "SELECT * FROM medida WHERE nombre='$nombre'";
 		$consulta = json_decode($conex->get($query));
@@ -16,7 +14,6 @@
 			header("location: inicio_admin.php");
 			return;
 		}
-
 		$query  = "insert into medida(nombre,descripcion,unidad_medida) values ('$nombre','$descripcion','$unidad_medida')";
 		echo $query;
 		if ($conex->insert($query)) {
@@ -53,7 +50,6 @@
 			return;
 		}
 		$query  = "update Medida set nombre='$nombre',descripcion='$descripcion',unidad_medida='$unidad_medida' where idMedida=$idMedida";
-
 		if ($conex->insert($query)) {
 			$_SESSION["msj"] = "Medida Editada Satisfactoriamente";
 		}else{
@@ -63,11 +59,8 @@
 	}elseif (isset($_POST['eliminar'])) {
 		$idMedida = $_POST['idMedidaForm'];
 		$nombreMedida = $_POST['nombreMedidaForm'];
-
 		$conex = new Conexion;
-
 		$query  = "DELETE FROM Medida WHERE idMedida = $idMedida";
-
 		if ($conex->insert($query)) {
 			$_SESSION["msj"] = "Se ha borrado ".$nombreMedida;
 		}else{
@@ -75,5 +68,4 @@
 		}
 		header("location: inicio_admin.php");
 	}
-
 ?>

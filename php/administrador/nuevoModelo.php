@@ -11,11 +11,15 @@
 		$descripcion = $_POST["descripcionAct"];
 		$version = $_POST["versionAct"];
 
-		$duplicarRegistro =  json_decode($conex->get("SELECT * FROM modelo_p where nombreM='$nombre' and descripcion='$descripcion' and version='$version'"));
-		if (count($duplicarRegistro) > 0) {
-			$_SESSION["msj"] = "Error!. Ya existe este Modelo con esta versión.";
-			header("location: inicio_admin.php");
-			return;
+		$verificarRegistro = json_decode($conex->get("SELECT * FROM modelo_p where nombreM='$nombre' and version='$version' and idModelo_P=$id"));
+
+		if (count($verificarRegistro) == 0) {
+			$duplicarRegistro =  json_decode($conex->get("SELECT * FROM modelo_p where nombreM='$nombre' and version='$version'"));
+			if (count($duplicarRegistro) > 0) {
+				$_SESSION["msj"] = "Error!. Ya existe este Modelo con esta versión.";
+				header("location: inicio_admin.php");
+				return;
+			}
 		}
 
 		$query = "update modelo_p set nombreM='$nombre',descripcion='$descripcion',version='$version' where idModelo_P=$id";

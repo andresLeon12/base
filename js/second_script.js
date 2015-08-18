@@ -1,4 +1,3 @@
-
 $(document).on("click","#tareas",function(){
 	$('#content').load('tareas.php');//cargando la vista de fase.php en el div con el id de content
 	$("#tareasLi").addClass("active");
@@ -8,50 +7,6 @@ $(document).on("click","#tareas",function(){
 	pag_act = 'tareas';
 });
 
-//al hacer clic en editar
-/*
-$(document).on('click','a',function(){
-	
-	href = $(this).attr("href");
-	seccion = $(this).attr("class");
-
-	if (href === "#!") {
-		if(seccion.indexOf("miTarea")>=0){
-				
-			idTarea = $(this).attr('id')
-
-			var auxIdAct = 0;
-
-			$.ajax({
-				method: 'GET',
-				data: {table : 'tarea' , id : idTarea , idTable : 'idTarea'},
-				url: "getByID.php",
-			}).done(function(resultado){
-				res = JSON.parse(resultado);
-				$("#idTarea").val(res.idTarea)//el id para actualizar los datos
-				$("#nomTarea").html("Tarea: <b>"+res.nombre+"</b>");
-				$("#nombre2").val(res.nombre);
-			 	$("#descripcion2").val(res.descripcion);
-
-			 	auxIdModelo = res.Actividad_idActividad;
-
-			 	$("#actividadEdit option").each(function(){
-			 		element = this;
-			 		if(element.value == auxIdModelo){
-			 			$(this).attr("selected","true");
-			 		}
-			 	});
-
-			 	//$('#modelFase').openModal()
-			 	$("#nombre2").focus();
-		 		$("#descripcion2").focus();
-		 		$("#nombre2").focus();
-			})
-
-			$('#modalTarea').openModal();
-		}
-	}
-});*/
 
 $(document).on('submit','.eliminarTarea',function(){
 	id = $(this).attr("id").split("-");
@@ -109,6 +64,21 @@ $(document).on("change","#selectRecurso", function(){
 		$("#descripcionDiv").fadeIn("slow")
 		$("#tipo_recurso").val("fisico")
 		$("#descripcion").val("")
+	}
+});
+$(document).on("change","#selectContent", function(){
+	if($(this).prop("checked")){
+		$("#seccion_act").val("resultados")
+		$("#Formulario").slideUp("slow");
+		$("#resultados").slideDown("slow");
+		$("#title").fadeOut("slow");
+		$("#titleR").fadeIn("slow");
+	}else{
+		$("#seccion_act").val("Formulario")
+		$("#Formulario").slideDown("slow");
+		$("#resultados").slideUp("slow");
+		$("#title").show("slow");
+		$("#titleR").hide("slow");
 	}
 });
 $(document).on("click","#guias",function(){

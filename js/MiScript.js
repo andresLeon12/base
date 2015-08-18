@@ -340,6 +340,178 @@ $(document).on("click","a", function(){
 
 	//////////////////////////////FIN DE SCRIT EDITAR SALIDA
 
+//-----------------------------------------------------------------Editar un Producto de Trabajo ----------------------
+	if(href=="#editarProducto"){
+		idProducto = $(this).attr("id");
+		$("#idProductoEdit").val(idProducto);
+		//alert(idProducto);
+		//-------------------Trae el nombre del producto de trabajo
+		$.ajax({
+			method: 'GET',
+			data: {getNombreProducto : 'getNombreProducto' ,id:idProducto},
+			url: "productosMetodos.php",
+			}).done(function(resultado){
+				//alert(resultado)
+				res = JSON.parse(resultado)
+				$("#nomProducto").html("Producto de Trabajo : "+res.nombre);
+				$("#tipoProductoEdit").val(res.tipo)
+				$("#nombreProductoEdit").val(res.nombre)
+				$("#versionProductoEdit").val(res.version)
+				$("#nombreProductoEdit").focus();
+		})
+		//--------------------------------------------
+
+		/******************Traer el id de la Tarea  a la que pertenece el producto*******************/
+		$.ajax({
+			method: 'GET',
+			data: {getTareaByProducto : 'getTareaByProducto' ,id:idProducto},
+			url: "productosMetodos.php",
+			}).done(function(resultado){
+		
+				res = JSON.parse(resultado)
+
+				
+				//alert("nombre de la Tarea ");
+				idTarea  = res.idTarea;
+			
+				idActividad  = res.Actividad_idActividad;
+				nombreTarea  = res.nombre;
+			
+			
+				$.ajax({
+					method: 'GET',
+					data: {getAllTareas : 'getAllTareas' },
+					url: "productosMetodos.php",
+				}).done(function(resultado){
+				
+					res = JSON.parse(resultado)
+					$("#idTareasEdit").empty();
+					$("#idTareasEdit").append("<option value='0'>Selecciona una tarea</option>");
+					for (var i = 0; i < res.length; i++) {
+						if(res[i].idTarea == idTarea){
+					
+							$("#idTareasEdit").append("<option selected value='"+res[i].idTarea+"'>"+res[i].nombre+"</option>");
+						}else{
+							$("#idTareasEdit").append("<option value='"+res[i].idTarea+"'>"+res[i].nombre+"</option>");
+						}
+					};
+
+
+				})
+				//-----fin todas las tareas
+
+			
+				//--------todas las actividades
+				
+				$.ajax({
+					method: 'GET',
+					data: {getAllActividades : 'getAllActividades' },
+					url: "productosMetodos.php",
+				}).done(function(resultado){
+					res = JSON.parse(resultado)
+					$("#idActividadesEdit").empty();
+					$("#idActividadesEdit").append("<option value='0'>Selecciona una actividad</option>");
+					for (var i = 0; i < res.length; i++) {
+				
+						if(res[i].idActividad == idActividad){
+							$("#idActividadesEdit").append("<option selected value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
+						}else{
+							$("#idActividadesEdit").append("<option value='"+res[i].idActividad+"'>"+res[i].nombre+"</option>");
+						}
+					};
+
+
+				})
+				//----------fin de todas las actividades
+				
+				//alert(idActividad)
+				//------------------ ir por el nombre de la actividad y el id de la fase
+				
+				$.ajax({
+					method: 'GET',
+					data: {getActividadByTarea : 'getActividadByTarea' ,id:idActividad},
+					url: "productosMetodos.php",
+				}).done(function(resultado){
+					//alert(resultado);
+					res = JSON.parse(resultado)
+					nombreActividad  = res.nombre;
+					idFase  = res.Fase_idFase;
+
+					//--------todas las fases
+					$.ajax({
+						method: 'GET',
+						data: {getAllFases : 'getAllFases' },
+						url: "productosMetodos.php",
+					}).done(function(resultado){
+						//alert(resultado);
+						res = JSON.parse(resultado)
+						$("#idfasesEdit").empty();
+						$("#idfasesEdit").append("<option value='0'>Selecciona una fase</option>");
+						for (var i = 0; i < res.length; i++) {
+							if(res[i].idFase == idFase){
+								$("#idfasesEdit").append("<option selected value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
+							}else{
+								$("#idfasesEdit").append("<option value='"+res[i].idFase+"'>"+res[i].nombre+"</option>");
+							}
+						};
+
+					})
+					//----------------fin de todas las fases
+				
+					//-------------traer el modelo al que pertenece
+					$.ajax({
+						method: 'GET',
+						data: {getModeloByFase : 'getModeloByFase' ,id:idFase},
+						url: "productosMetodos.php",
+					}).done(function(resultado){
+						//alert(resultado);
+						res = JSON.parse(resultado)
+						idModelo  = res.Modelo_P_idModelo_P;
+
+						///------------todos los modelos
+						$.ajax({
+							method: 'GET',
+							data: {getAllModelos : 'getAllModelos' },
+							url: "productosMetodos.php",
+						}).done(function(resultado){
+							//alert(resultado);
+							res = JSON.parse(resultado)
+							$("#modelsEdit").empty();
+							$("#modelsEdit").append("<option value='0'>Selecciona una modelo</option>");
+							for (var i = 0; i < res.length; i++) {
+								if(res[i].idModelo_P == idModelo){
+									$("#modelsEdit").append("<option selected value='"+res[i].idModelo_P+"'>"+res[i].nombreM+"</option>");
+								}else{
+									$("#modelsEdit").append("<option value='"+res[i].idModelo_P+"'>"+res[i].nombreM+"</option>");
+								}
+							};
+
+						})
+						//---end all models
+
+					})
+					//-----------------fin de traer el modelo al que pertenece
+
+
+
+
+
+
+				})
+				//----------------------------------------------------
+
+		})
+		/***********************************/
+		$("#nombreProductoEdit").focus();
+		$("#editarProducto").openModal()//////////////
+		
+		return;
+
+	}
+//------------------------------------------------------------Fin Editar un producto de trabajo
+
+	
+
 
 
 
@@ -392,3 +564,35 @@ $(document).on("submit", ".eliminarSalida", function(){
 	$("#confirmDeleteSal").openModal();
 	return false;
 });
+
+
+// Confirmación de eliminación de productp
+$(document).on("submit", ".eliminarProducto", function(){
+	
+	id = $(this).attr("id");
+
+	//alert(id);
+	
+	$(this).find("input:hidden").each( function(){
+		nombre =  this.id;
+	});
+
+	$("#idProductoForm").val(id);
+	$("#nombreActForm").val(nombre);
+	$("#nomProductoEliminar").html("¿Realmente deseas eliminar el Producto de Trabajo "+nombre+"  ?");
+
+
+
+
+
+	$("#confirmDeletePro").openModal();
+	return false;
+});
+/*******************************************************/
+	
+
+
+
+
+
+
